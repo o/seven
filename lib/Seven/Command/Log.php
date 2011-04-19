@@ -69,22 +69,26 @@ class Log extends \Seven\Command {
         }
         $this->addArgument($this->getRepository()->getUrl());
         if ($this->getRepository()->getUsername()) {
-            $this->setOption('username',
+            $this->setOption(
+                    'username',
                     $this->getRepository()->getUsername()
             );
         }
         if ($this->getRepository()->getPassword()) {
-            $this->setOption('password',
+            $this->setOption(
+                    'password',
                     $this->getRepository()->getPassword()
             );
         }
         if ($this->getRevision()) {
-            $this->setOption('revision',
+            $this->setOption(
+                    'revision',
                     $this->getRevision()
             );
         }
         if ($this->getLimit()) {
-            $this->setOption('limit',
+            $this->setOption(
+                    'limit',
                     $this->getLimit()
             );
         }
