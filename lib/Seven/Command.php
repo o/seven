@@ -70,6 +70,7 @@ abstract class Command {
     }
 
     private function prepare() {
+        $this->init();
         $result = array();
         \array_push($result, $this->getCommand());
         \array_push($result, $this->getSubCommand());
@@ -89,7 +90,7 @@ abstract class Command {
         return \shell_exec($this->prepare());
     }
 
-    abstract public function init();
+    abstract protected function init();
 
 }
 

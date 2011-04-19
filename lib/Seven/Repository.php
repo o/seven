@@ -16,11 +16,19 @@ namespace Seven;
  */
 class Repository {
 
-    private $name;
-    private $url;
-    private $path;
+    public $name;
+    public $url;
+    public $path;
     private $username;
     private $password;
+
+    function __construct($name, $url, $path = NULL, $username = NULL, $password = NULL) {
+        $this->setName($name);
+        $this->setUrl($url);
+        $this->setPath($path);
+        $this->setUsername($username);
+        $this->setPassword($password);
+    }
 
     public function getName() {
         return $this->name;

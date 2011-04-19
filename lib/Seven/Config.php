@@ -15,11 +15,28 @@ namespace Seven;
  * @link       http://github.com/osmanungur/seven
  */
 class Config {
+    const FILENAME = 'config.yml';
+    static private $values;
 
-    public function __construct() {
-        throw new Exception('Not yet implemented', 1);
+    static public function getValues() {
+        if (!self::$values) {
+            self::$values = self::parse();
+        }
+        return self::$values;
+    }
+
+    private static function parse() {
+        try {
+            $yaml = new \sfYamlParser();
+            $values = $yaml->parse(file_get_contents(self::FILENAME));
+        } catch (Exception $exc) {
+            return false;
+        }
+        return $values;
+    }
+
+    private function __construct() {
+        
     }
 
 }
-
-?>

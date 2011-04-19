@@ -18,9 +18,16 @@ class Log extends \Seven\Command {
     const COMMAND = 'log';
     const REV_SEPERATOR = ':';
 
+    const PARAMETER_XML = 'xml';
+    const PARAMETER_VERBOSE = 'verbose';
+    const PARAMETER_USERNAME = 'username';
+    const PARAMETER_PASSWORD = 'password';
+    const PARAMETER_REVISION = 'revision';
+    const PARAMETER_LIMIT = 'limit';
+
     private $repository;
     private $revision;
-    private $limit = 10;
+    private $limit;
 
     private function getRepository() {
         return $this->repository;
@@ -53,12 +60,12 @@ class Log extends \Seven\Command {
         return $this;
     }
 
-    public function init() {
+    protected function init() {
         $this->setCommand(\Seven\Command::SVN)
                 ->setSubCommand(self::COMMAND)
                 ->setOptions(array(
-                    'xml' => true,
-                    'verbose' => true
+                    self::PARAMETER_XML => true,
+                    self::PARAMETER_VERBOSE => true
                 ));
 
         if ($this->getRepository()->getPath()) {
@@ -70,25 +77,25 @@ class Log extends \Seven\Command {
         $this->addArgument($this->getRepository()->getUrl());
         if ($this->getRepository()->getUsername()) {
             $this->setOption(
-                    'username',
+                    self::PARAMETER_USERNAME,
                     $this->getRepository()->getUsername()
             );
         }
         if ($this->getRepository()->getPassword()) {
             $this->setOption(
-                    'password',
+                    self::PARAMETER_PASSWORD,
                     $this->getRepository()->getPassword()
             );
         }
         if ($this->getRevision()) {
             $this->setOption(
-                    'revision',
+                    self::PARAMETER_REVISION,
                     $this->getRevision()
             );
         }
         if ($this->getLimit()) {
             $this->setOption(
-                    'limit',
+                    self::PARAMETER_LIMIT,
                     $this->getLimit()
             );
         }
