@@ -3,7 +3,7 @@
 namespace Seven;
 
 /**
- * Executor
+ * Command
  *
  *
  * @package    Seven
@@ -14,61 +14,62 @@ namespace Seven;
  * @since      Class available since Release 1.0.0
  * @link       http://github.com/osmanungur/seven
  */
-class Executor {
+abstract class Command {
     const LONG_OPTION = '--';
+    const SVN = 'svn';
 
     private $command;
     private $subCommand;
     private $arguments = array();
     private $options = array();
 
-    public function setCommand($command) {
+    protected function setCommand($command) {
         $this->command = $command;
         return $this;
     }
 
-    public function setSubCommand($subCommand) {
+    protected function setSubCommand($subCommand) {
         $this->subCommand = $subCommand;
         return $this;
     }
 
-    public function setArguments($arguments) {
+    protected function setArguments($arguments) {
         $this->arguments = $arguments;
         return $this;
     }
 
-    public function addArgument($value) {
+    protected function addArgument($value) {
         $this->arguments[] = $value;
         return $this;
     }
 
-    public function setOptions($options) {
+    protected function setOptions($options) {
         $this->options = $options;
         return $this;
     }
 
-    public function setOption($name, $value = true) {
+    protected function setOption($name, $value = true) {
         $this->options[$name] = $value;
         return $this;
     }
 
-    public function getCommand() {
+    private function getCommand() {
         return $this->command;
     }
 
-    public function getSubCommand() {
+    private function getSubCommand() {
         return $this->subCommand;
     }
 
-    public function getArguments() {
+    private function getArguments() {
         return $this->arguments;
     }
 
-    public function getOptions() {
+    private function getOptions() {
         return $this->options;
     }
 
-    public function prepare() {
+    private function prepare() {
         $result = array();
         \array_push($result, $this->getCommand());
         \array_push($result, $this->getSubCommand());
@@ -84,9 +85,11 @@ class Executor {
         return \implode(\chr(32), $result);
     }
 
-    public function execute($cmd) {
-        return \shell_exec($cmd);
+    public function execute() {
+        return \shell_exec($this->prepare());
     }
+
+    abstract public function init();
 
 }
 
