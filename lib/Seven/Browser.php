@@ -16,8 +16,6 @@ namespace Seven;
  */
 class Browser {
 
-    private $fileActions = array('A' => 'Added', 'D' => 'Deleted', 'M' => 'Modified', 'C' => 'Conflicted', 'G' => 'Merged', 'R' => 'Replaced');
-
     public function getRepositories() {
         $result = array();
         $values = \Seven\Config::getValues();
@@ -39,10 +37,6 @@ class Browser {
                 ->setRevision($revision_start, $revision_end)
                 ->setLimit($limit)
                 ->execute();
-    }
-
-    private function getFileAction($action) {
-        return $this->fileActions[(string) $action];
     }
 
     private function getPostRequest($key) {

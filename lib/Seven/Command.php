@@ -71,19 +71,19 @@ abstract class Command {
 
     private function prepare() {
         $this->init();
-        $result = array();
-        \array_push($result, $this->getCommand());
-        \array_push($result, $this->getSubCommand());
+        $result = new \ArrayObject();
+        $result->append($this->getCommand());
+        $result->append($this->getSubCommand());
         foreach ($this->getOptions() as $key => $option) {
-            \array_push($result, self::LONG_OPTION . $key);
+            $result->append(self::LONG_OPTION . $key);
             if ($option !== true) {
-                \array_push($result, \escapeshellarg($option));
+                $result->append(\escapeshellarg($option));
             }
         }
         foreach ($this->getArguments() as $argument) {
-            \array_push($result, \escapeshellarg($argument));
+            $result->append(\escapeshellarg($argument));
         }
-        return \implode(\chr(32), $result);
+        return \implode(\chr(32), \iterator_to_array($result));
     }
 
     public function execute() {
