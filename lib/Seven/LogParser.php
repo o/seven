@@ -47,8 +47,8 @@ class LogParser {
         if (!libxml_get_errors()) {
             $this->setXml($xml);
         } else {
-            throw new Exception("Some errors occured when loading XML", 1);
             libxml_clear_errors();
+            throw new Exception("Repository log cannot be fetched", 1);
         }
         return $this;
     }

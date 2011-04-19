@@ -16,7 +16,7 @@ namespace Seven;
  */
 class Browser {
 
-    public function getRepositories() {
+    private function getRepositories() {
         $result = array();
         $values = \Seven\Config::getValues();
         foreach ($values['repositories'] as $repository) {
@@ -31,7 +31,7 @@ class Browser {
         return new Repository($repository['name'], $repository['url'], $repository['path'], $repository['username'], $repository['password']);
     }
 
-    public function getRepositoryLog($repository_id, $revision_start, $revision_end, $limit) {
+    private function getRepositoryLog($repository_id, $revision_start, $revision_end, $limit) {
         $log = new \Seven\Command\Log();
         return $log->setRepository($this->getRepository($repository_id))
                 ->setRevision($revision_start, $revision_end)
@@ -44,6 +44,31 @@ class Browser {
             return $_POST[$key];
         }
         return false;
+    }
+
+    public function dispatch() {
+        switch ($this->getPostRequest('action')) {
+            case 'repositories':
+                return \json_encode(
+                        $this->getRepositories()
+                );
+                break;
+
+            case 'log':
+                return \json_encode(
+                        $this->getRepositoryLog(
+                                $this->getPostRequest('repository_id'),
+                                $this->getPostRequest('revision_start'),
+                                $this->getPostRequest('revision_end'),
+                                $this->getPostRequest('limit')
+                ));
+                break;
+
+
+            default:
+                return \json_encode(array('message' => 'Wrong action given'));
+                break;
+        }
     }
 
 }
