@@ -22,6 +22,46 @@ class Repository {
     private $username;
     private $password;
 
+    public function getName() {
+        return $this->name;
+    }
+
+    public function setName($name) {
+        $this->name = $name;
+    }
+
+    public function getUrl() {
+        return $this->url;
+    }
+
+    public function setUrl($url) {
+        $this->url = $url;
+    }
+
+    public function getPath() {
+        return $this->path;
+    }
+
+    public function setPath($path) {
+        $this->path = $path;
+    }
+
+    public function getUsername() {
+        return $this->username;
+    }
+
+    public function setUsername($username) {
+        $this->username = $username;
+    }
+
+    public function getPassword() {
+        return $this->password;
+    }
+
+    public function setPassword($password) {
+        $this->password = $password;
+    }
+
 }
 
 ?>

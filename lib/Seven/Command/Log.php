@@ -15,9 +15,35 @@ namespace Seven\Command;
  * @link       http://github.com/osmanungur/seven
  */
 class Log {
+    const COMMAND = 'log';
 
+    private $repository;
     private $revision;
     private $limit;
+
+    public function getRepository() {
+        return $this->repository;
+    }
+
+    public function setRepository(\Seven\Repository $repository) {
+        $this->repository = $repository;
+    }
+
+    public function getRevision() {
+        return $this->revision;
+    }
+
+    public function setRevision($revision) {
+        $this->revision = $revision;
+    }
+
+    public function getLimit() {
+        return $this->limit;
+    }
+
+    public function setLimit($limit) {
+        $this->limit = $limit;
+    }
 
 }
 
