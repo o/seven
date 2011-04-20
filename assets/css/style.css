@@ -1,0 +1,17 @@
+/* 
+    Document   : style
+    Author     : Osman Üngür
+    Description:
+        Main layout stylesheet.
+*/
+
+.caps {
+  font-variant: small-caps;
+  letter-spacing: 1px;
+  text-transform: lowercase;
+  font-size:1.2em;
+  line-height:1%;
+  font-weight:bold;
+  padding:0 2px;
+}
+
