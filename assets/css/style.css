@@ -6,12 +6,25 @@
 */
 
 .caps {
-  font-variant: small-caps;
-  letter-spacing: 1px;
-  text-transform: lowercase;
-  font-size:1.2em;
-  line-height:1%;
-  font-weight:bold;
-  padding:0 2px;
+    font-variant: small-caps;
+    letter-spacing: 1px;
+    text-transform: lowercase;
+    font-size:1.2em;
+    line-height:1%;
+    font-weight:bold;
+    padding:0 2px;
 }
 
+#header {
+    height: 100px;
+}
+
+#log-options input.text, input.title {
+    width:178px;
+}
+
+#repository-list ul {
+    list-style: none;
+    padding: 0px;
+    margin: 0px;
+}

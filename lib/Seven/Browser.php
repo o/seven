@@ -21,7 +21,10 @@ class Browser {
         $result = array();
         $values = \Seven\Config::getValues();
         foreach ($values['repositories'] as $repository) {
-            $result[] = new Repository($repository['name'], $repository['url']);
+            $result[] = new \ArrayObject(array(
+                        'name' => $repository['name'],
+                        'url' => $this->getShortUrl($repository['url'])
+                    ));
         }
         return $result;
     }
@@ -47,6 +50,18 @@ class Browser {
             return $_POST[$key];
         }
         return false;
+    }
+
+    private function getShortUrl($url) {
+        $parsed = \parse_url($url);
+        if (\array_key_exists('host', $parsed)) {
+            return $parsed['host'];
+        } else {
+            if (strlen($url) > 25) {
+                return \substr($url, 0, 25) . "...";
+            }
+            return $url;
+        }
     }
 
     public function dispatch() {
