@@ -75,7 +75,7 @@ class LogParser {
                         'files' => $changedfiles
                     )));
         };
-        return $result;
+        return \iterator_to_array($result);
     }
 
     private function getXml() {

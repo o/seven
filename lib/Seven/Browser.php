@@ -18,15 +18,15 @@ namespace Seven;
 class Browser {
 
     private function getRepositories() {
-        $result = array();
+        $result = new \ArrayObject();
         $values = \Seven\Config::getValues();
         foreach ($values['repositories'] as $repository) {
-            $result[] = new \ArrayObject(array(
+            $result->append(new \ArrayObject(array(
                         'name' => $repository['name'],
                         'url' => $this->getShortUrl($repository['url'])
-                    ));
+                    )));
         }
-        return $result;
+        return \iterator_to_array($result);
     }
 
     private function getRepositoryInfo($id) {
