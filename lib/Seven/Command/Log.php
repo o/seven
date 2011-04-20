@@ -3,10 +3,12 @@
 namespace Seven\Command;
 
 /**
- * Log
- * 
+ * Seven\Log
  *
- * @package    Seven_Command
+ * Implementation of log command
+ *
+ * @package    Seven
+ * @subpackage Seven\Command
  * @author     Osman Üngür <osmanungur@gmail.com>
  * @copyright  2011 Osman Üngür
  * @license    http://www.opensource.org/licenses/bsd-license.php BSD License
@@ -25,78 +27,58 @@ class Log extends \Seven\Command {
     const PARAMETER_REVISION = 'revision';
     const PARAMETER_LIMIT = 'limit';
 
-    private $repository;
-    private $revision;
-    private $limit;
-
-    private function getRepository() {
-        return $this->repository;
-    }
-
-    public function setRepository(\Seven\Repository $repository) {
-        $this->repository = $repository;
-        return $this;
-    }
-
-    private function getRevision() {
-        return $this->revision;
-    }
-
-    public function setRevision($start, $end = NULL) {
-        if ($end) {
-            $this->revision = $start . self::REV_SEPERATOR . $end;
-        } else {
-            $this->revision = $start;
-        }
-        return $this;
-    }
-
-    private function getLimit() {
-        return $this->limit;
-    }
-
-    public function setLimit($limit) {
-        $this->limit = $limit;
-        return $this;
-    }
-
-    protected function init() {
+    public function __construct() {
         $this->setCommand(\Seven\Command::SVN)
                 ->setSubCommand(self::COMMAND)
                 ->setOptions(array(
                     self::PARAMETER_XML => true,
                     self::PARAMETER_VERBOSE => true
                 ));
+        ;
+    }
 
-        if ($this->getRepository()->getPath()) {
-            $this->getRepository()->setUrl(
-                    $this->getRepository()->getUrl() .
-                    $this->getRepository()->getPath()
+    public function setRepository(\Seven\Repository $repository) {
+        if ($repository->getPath()) {
+            $repository->setUrl(
+                    $repository->getUrl() .
+                    $repository->getPath()
             );
         }
-        $this->addArgument($this->getRepository()->getUrl());
-        if ($this->getRepository()->getUsername()) {
+        $this->addArgument($repository->getUrl());
+        if ($repository->getUsername()) {
             $this->setOption(
                     self::PARAMETER_USERNAME,
-                    $this->getRepository()->getUsername()
+                    $repository->getUsername()
             );
         }
-        if ($this->getRepository()->getPassword()) {
+        if ($repository->getPassword()) {
             $this->setOption(
                     self::PARAMETER_PASSWORD,
-                    $this->getRepository()->getPassword()
+                    $repository->getPassword()
             );
         }
-        if ($this->getRevision()) {
+
+        return $this;
+    }
+
+    public function setLimit($limit) {
+        $this->setOption(
+                self::PARAMETER_LIMIT,
+                $limit
+        );
+        return $this;
+    }
+
+    public function setRevision($start, $end = NULL) {
+        if ($end) {
             $this->setOption(
                     self::PARAMETER_REVISION,
-                    $this->getRevision()
+                    $start . self::REV_SEPERATOR . $end
             );
-        }
-        if ($this->getLimit()) {
+        } else {
             $this->setOption(
-                    self::PARAMETER_LIMIT,
-                    $this->getLimit()
+                    self::PARAMETER_REVISION,
+                    $start
             );
         }
         return $this;

@@ -5,6 +5,7 @@ namespace Seven;
 /**
  * Config
  *
+ * Object for accessing YAML configuration entries
  *
  * @package    Seven
  * @author     Osman Üngür <osmanungur@gmail.com>

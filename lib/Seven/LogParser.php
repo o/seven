@@ -5,6 +5,7 @@ namespace Seven;
 /**
  * LogParser
  *
+ * Parser for subversion log output
  *
  * @package    Seven
  * @author     Osman Üngür <osmanungur@gmail.com>

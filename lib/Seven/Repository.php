@@ -5,6 +5,7 @@ namespace Seven;
 /**
  * Repository
  *
+ * Object for representing repositories
  *
  * @package    Seven
  * @author     Osman Üngür <osmanungur@gmail.com>

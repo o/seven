@@ -3,8 +3,9 @@
 namespace Seven;
 
 /**
- * Browser
+ * Seven\Browser
  *
+ * Dispatcher for routing requests and includes browser helper methods
  *
  * @package    Seven
  * @author     Osman Üngür <osmanungur@gmail.com>
@@ -25,18 +26,20 @@ class Browser {
         return $result;
     }
 
-    private function getRepository($id) {
+    private function getRepositoryInfo($id) {
         $values = \Seven\Config::getValues();
         $repository = $values['repositories'][$id];
         return new Repository($repository['name'], $repository['url'], $repository['path'], $repository['username'], $repository['password']);
     }
 
-    private function getRepositoryLog($repository_id, $revision_start, $revision_end, $limit) {
+    private function getRepositoryLog($repository_id, $limit = 10, $revision_start = false, $revision_end = false) {
         $log = new \Seven\Command\Log();
-        return $log->setRepository($this->getRepository($repository_id))
-                ->setRevision($revision_start, $revision_end)
-                ->setLimit($limit)
-                ->execute();
+        $result = $log->setRepository($this->getRepositoryInfo($repository_id))
+                        ->setLimit($limit)
+                        ->setRevision($revision_start, $revision_end)
+                        ->execute();
+        $parser = new Seven\LogParser($result);
+        return $parser->parse();
     }
 
     private function getPostRequest($key) {
@@ -58,9 +61,9 @@ class Browser {
                 return \json_encode(
                         $this->getRepositoryLog(
                                 $this->getPostRequest('repository_id'),
+                                $this->getPostRequest('limit'),
                                 $this->getPostRequest('revision_start'),
-                                $this->getPostRequest('revision_end'),
-                                $this->getPostRequest('limit')
+                                $this->getPostRequest('revision_end')
                 ));
                 break;
 

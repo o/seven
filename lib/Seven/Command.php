@@ -5,6 +5,7 @@ namespace Seven;
 /**
  * Command
  *
+ * Abstract class for interacting with command line
  *
  * @package    Seven
  * @author     Osman Üngür <osmanungur@gmail.com>
@@ -69,12 +70,14 @@ abstract class Command {
         return $this->options;
     }
 
-    private function prepare() {
-        $this->init();
+    public function prepare() {
         $result = new \ArrayObject();
         $result->append($this->getCommand());
         $result->append($this->getSubCommand());
         foreach ($this->getOptions() as $key => $option) {
+            if ($option === false) {
+                continue;
+            }
             $result->append(self::LONG_OPTION . $key);
             if ($option !== true) {
                 $result->append(\escapeshellarg($option));
@@ -89,8 +92,6 @@ abstract class Command {
     public function execute() {
         return \shell_exec($this->prepare());
     }
-
-    abstract protected function init();
 
 }
 
