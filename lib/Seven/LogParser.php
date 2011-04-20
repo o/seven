@@ -72,7 +72,7 @@ class LogParser {
                         'author' => (string) $commits->{self::XML_AUTHOR_TAG},
                         'message' => (string) trim($commits->{self::XML_MESSAGE_TAG}),
                         'date' => (string) $commits->{self::XML_DATE_TAG},
-                        $changedfiles
+                        'files' => $changedfiles
                     )));
         };
         return $result;

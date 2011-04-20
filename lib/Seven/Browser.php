@@ -38,7 +38,7 @@ class Browser {
                         ->setLimit($limit)
                         ->setRevision($revision_start, $revision_end)
                         ->execute();
-        $parser = new Seven\LogParser($result);
+        $parser = new LogParser($result);
         return $parser->parse();
     }
 
@@ -50,27 +50,31 @@ class Browser {
     }
 
     public function dispatch() {
-        switch ($this->getPostRequest('action')) {
-            case 'repositories':
-                return \json_encode(
-                        $this->getRepositories()
-                );
-                break;
+        if ($this->getPostRequest('action')) {
+            switch ($this->getPostRequest('action')) {
+                case 'repositories':
+                    return \json_encode(
+                            $this->getRepositories()
+                    );
+                    break;
 
-            case 'log':
-                return \json_encode(
-                        $this->getRepositoryLog(
-                                $this->getPostRequest('repository_id'),
-                                $this->getPostRequest('limit'),
-                                $this->getPostRequest('revision_start'),
-                                $this->getPostRequest('revision_end')
-                ));
-                break;
+                case 'log':
+                    return \json_encode(
+                            $this->getRepositoryLog(
+                                    $this->getPostRequest('repository_id'),
+                                    $this->getPostRequest('limit'),
+                                    $this->getPostRequest('revision_start'),
+                                    $this->getPostRequest('revision_end')
+                    ));
+                    break;
 
 
-            default:
-                return \json_encode(array('message' => 'Wrong action given'));
-                break;
+                default:
+                    return \json_encode(array('message' => 'Wrong action given'));
+                    break;
+            }
+        } else {
+            return \json_encode(array('message' => 'No action given'));
         }
     }
 
