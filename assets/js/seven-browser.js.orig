@@ -17,7 +17,7 @@ function getRepositories() {
                 var repositoryListUl = $('#repository-list ul');
 
                 for (var i = data.length - 1; i >= 0; i--){
-                    repositoryListUl.append('<li><a href="#" onclick="changeRepository('+ i +')">' + data[i].name + '</a><br><span class="quiet">' + data[i].url + '</span></li>')
+                    repositoryListUl.append('<li><a href="" onclick="changeRepository('+ i +')">' + data[i].name + '</a><br><span class="quiet">' + data[i].url + '</span></li>')
                 }
                 
             } else {
