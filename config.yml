@@ -1,9 +1,16 @@
 repositories:
-    - name :        Test Repository
+    - name :        Mac Fuse
       url :         http://macfuse.googlecode.com/svn/
       path :        trunk/
       username :    guest
       password :    guest 
+
+    - name :        ReCaptcha
+      url :         http://recaptcha.googlecode.com/svn/
+      path :        trunk/recaptcha-plugins
+      username :    guest
+      password :    guest 
+
 
 options:
     limit :         10
