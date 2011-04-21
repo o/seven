@@ -29,9 +29,29 @@
     margin: 0px;
 }
 
+#repository-list ul li {
+    padding-bottom: 10px;
+}
+
 .revision-log {
-    clear: both;
-    display: block;
-    margin-top: 5px;
-    margin-bottom: 5px;
+    margin-bottom: 20px;
+}
+
+.revision-number, .revision-message, revision-author-date {
+    height:40px;
+    overflow: hidden;
+}
+
+.revision-number {
+    font-size: 200%;
+}
+
+.revision-files {
+    font-family: Monaco,"Courier New","DejaVu Sans Mono","Bitstream Vera Sans Mono",monospace;
+    list-style-type: none;
+    background-color: #EEEEEE;
+    color: #444444;
+    padding:0.8em;
+    margin-bottom:1em;
+    border:2px solid #ddd;
 }
