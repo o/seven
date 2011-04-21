@@ -57,8 +57,8 @@ class Browser {
         if (\array_key_exists('host', $parsed)) {
             return $parsed['host'];
         } else {
-            if (strlen($url) > 25) {
-                return \substr($url, 0, 25) . "...";
+            if (strlen($url) > 20) {
+                return \substr($url, 0, 20) . "...";
             }
             return $url;
         }

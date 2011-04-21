@@ -28,3 +28,10 @@
     padding: 0px;
     margin: 0px;
 }
+
+.revision-log {
+    clear: both;
+    display: block;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
