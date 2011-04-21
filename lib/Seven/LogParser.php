@@ -57,13 +57,13 @@ class LogParser {
     public function parse() {
         $result = new \ArrayObject();
         foreach ($this->getXml() as $commits) {
-            $changedfiles = false;
+            $changedfiles = new \ArrayObject();
             if ($commits->{self::XML_PATHS_TAG}->{self::XML_PATH_TAG}) {
                 foreach ($commits->{self::XML_PATHS_TAG}->{self::XML_PATH_TAG} as $files) {
-                    $changedfiles = new \ArrayObject(array(
-                                'filename' => (string) $files,
-                                'action' => $this->getFileAction($files[self::XML_ACTION_ATTRIBUTE])
-                            ));
+                    $changedfiles->append(array(
+                        'filename' => (string) $files,
+                        'action' => $this->getFileAction($files[self::XML_ACTION_ATTRIBUTE])
+                    ));
                 }
             }
 
@@ -72,7 +72,7 @@ class LogParser {
                         'author' => (string) $commits->{self::XML_AUTHOR_TAG},
                         'message' => (string) trim($commits->{self::XML_MESSAGE_TAG}),
                         'date' => (string) $this->time2str($commits->{self::XML_DATE_TAG}),
-                        'files' => $changedfiles
+                        'files' => \iterator_to_array($changedfiles)
                     )));
         };
         return \iterator_to_array($result);
