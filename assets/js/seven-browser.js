@@ -1,4 +1,4 @@
-var SVNBrowser = {
+var Browser = {
     currentRepository : false,
 	currentRevision : false,
 	ajaxUrl : 'ajax.php',
@@ -18,7 +18,7 @@ var SVNBrowser = {
 	                var repositoryListUl = $('#repository-list ul');
 
 	                for (var i = data.length - 1; i >= 0; i--){
-	                    repositoryListUl.append('<li><a href="#" onclick="SVNBrowser.getRepositoryLog('+ i +')">' + data[i].name + '</a><br><span class="quiet">' + data[i].url + '</span></li>')
+	                    repositoryListUl.append('<li><a href="#" onclick="Browser.getRepositoryLog('+ i +')">' + data[i].name + '</a><br><span class="quiet">' + data[i].url + '</span></li>')
 	                }
 
 	            } else {
@@ -61,3 +61,10 @@ var SVNBrowser = {
 	    })
 	}
 }
+
+
+// Stuff to do as soon as the DOM is ready;
+
+$(document).ready(function() {
+	Browser.getRepositories()
+});
