@@ -20,23 +20,35 @@ var Browser = {
 
                     for (var i in data){
                         repositoryListUl.append('<li>\n\
-                                                <a href="javascript:void(0)" onclick="Browser.getRepositoryLog('+ i +')">' + data[i].name + '</a>\n\
+                                                <a href="javascript:void(0)" onclick="Browser.switchRepository('+ i +')">' + data[i].name + '</a>\n\
                                                 <br>\n\
                                                 <span class="quiet">' + data[i].url + '</span>\n\
                                                 </li>')
                     }
-
+                    return true
                 } else {
                     $(repositoryListDiv).html('No repositories found.')
+                    return false
                 }
             },
             error: function() {
                 $(repositoryListDiv).html('An error occured when fetching repository list.')
+                return false
             }
         })
     },
 
-    getRepositoryLog: function(repository_id){
+    switchRepository: function(repository_id) {
+        this.currentRepository = repository_id
+        this.getRepositoryLog()
+        return true
+    },
+
+    getRepositoryLog: function(){
+        if (!this.currentRepository) {
+            return false
+        }
+        var repository_id = this.currentRepository
         var contentDiv = '#content';
         $(contentDiv).html('<div class="success">Fetching logs..</div>')
         $.ajax({
@@ -55,6 +67,8 @@ var Browser = {
 
                     $(contentDiv).empty()
                     for (var i in data){
+                        this.currentRevision = data[i].revision
+                        
                         $(contentDiv).append('<div id="revision-log-' + data[i].revision + '" class="revision-log clearfix"></div>')
 
                         $('#revision-log-' + data[i].revision).append('<div class="revision-number span-2 colborder">' + data[i].revision + '</div>')
@@ -70,13 +84,15 @@ var Browser = {
                         }
 
                     }
-
+                    return true
                 } else {
                     $(contentDiv).html('<div class="notice">No commit log found.</div>')
+                    return false
                 }
             },
             error: function() {
                 $(contentDiv).html('<div class="error">An error occured when fetching commit logs.</div>')
+                return false
             }
         })
     }

@@ -23,14 +23,14 @@
                 </div>
                 <h3 class="caps">Log options</h3>
                 <div class="box" id="log-options">
-                    <form action="" method="POST">
+                    <form action="/" method="POST">
                         <label for="limit">Limit</label>
                         <input type="text" class="text" name="limit" id="limit" value="10" />
                         <label for="revision-start">Revision start</label>
                         <input type="text" class="text" name="revision-start" id="revision-start" value="" />
                         <label for="revision-end">Revision end</label>
                         <input type="text" class="text" name="revision-end" id="revision-end" value="" />
-                        <input type="submit" value="Refresh" />
+                        <a onclick="Browser.getRepositoryLog()" href="javascript:void(0)">Refresh</a>
                     </form>
                 </div>
             </div>
