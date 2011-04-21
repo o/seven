@@ -18,9 +18,9 @@ var Browser = {
                     $(repositoryListDiv).html('<ul></ul>')
                     var repositoryListUl = $(repositoryListDiv +' ul');
 
-                    for (var i = data.length - 1; i >= 0; i--){
+                    for (var i in data){
                         repositoryListUl.append('<li>\n\
-                                                <a href="#" onclick="Browser.getRepositoryLog('+ i +')">' + data[i].name + '</a>\n\
+                                                <a href="javascript:void(0)" onclick="Browser.getRepositoryLog('+ i +')">' + data[i].name + '</a>\n\
                                                 <br>\n\
                                                 <span class="quiet">' + data[i].url + '</span>\n\
                                                 </li>')
@@ -38,6 +38,7 @@ var Browser = {
 
     getRepositoryLog: function(repository_id){
         var contentDiv = '#content';
+        $(contentDiv).html('<div class="success">Fetching logs..</div>')
         $.ajax({
             url: this.ajaxUrl,
             type: 'POST',
@@ -53,23 +54,29 @@ var Browser = {
                 if (data.length > 0) {
 
                     $(contentDiv).empty()
-                    for (var i = data.length - 1; i >= 0; i--){
-                        $(contentDiv).append('<div id="revision-log-' + data[i].revision + '" class="revision-log"></div>')
+                    for (var i in data){
+                        $(contentDiv).append('<div id="revision-log-' + data[i].revision + '" class="revision-log clearfix"></div>')
 
-                        $('#revision-log-' + data[i].revision).html('<span class="revision-number span-2">' + data[i].revision + '</span>\n\
-                                                          <span class="revision-author span-4">' + data[i].author + '</span>\n\
-                                                          <span class="revision-message span-6">' + data[i].message + '</span>\n\
-                                                          <span class="revision-date span-6 last">' + data[i].date + '</span>')
+                        $('#revision-log-' + data[i].revision).append('<div class="revision-number span-2 colborder">' + data[i].revision + '</div>')
+                        $('#revision-log-' + data[i].revision).append('<div class="revision-author-date span-5 quiet">' + data[i].author + ', ' + data[i].date + '</div>')
+                        $('#revision-log-' + data[i].revision).append('<div class="revision-message span-10 last">' + data[i].message + '</div>')
 
-                        
+                        if (data[i].files.length > 0) {
+                            var files = data[i].files
+                            $(contentDiv).append('<ul id="revision-log-' + data[i].revision + '-files" class="revision-files clearfix"></div>')
+                            for (var j in files) {
+                                $('#revision-log-' + data[i].revision + '-files').append('<li>' + files[j].filename + ', ' + files[j].action + '</li>')
+                            }
+                        }
+
                     }
 
                 } else {
-                    $(contentDiv).html('No commit log found.')
+                    $(contentDiv).html('<div class="notice">No commit log found.</div>')
                 }
             },
             error: function() {
-                $(contentDiv).html('An error occured when fetching commit logs.')
+                $(contentDiv).html('<div class="error">An error occured when fetching commit logs.</div>')
             }
         })
     }
