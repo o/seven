@@ -62,25 +62,27 @@ class Log extends \Seven\Command {
     }
 
     public function setLimit($limit) {
-        $this->setOption(
-                self::PARAMETER_LIMIT,
-                $limit
-        );
+        if (\is_numeric($limit)) {
+            $this->setOption(
+                    self::PARAMETER_LIMIT,
+                    $limit
+            );
+        }
         return $this;
     }
 
     public function setRevision($start, $end = NULL) {
-        if ($end) {
+        if (\is_numeric($start) && \is_numeric($end)) {
             $this->setOption(
                     self::PARAMETER_REVISION,
                     $start . self::REV_SEPERATOR . $end
             );
-        } else {
+        } elseif (\is_numeric($start)) {
             $this->setOption(
                     self::PARAMETER_REVISION,
                     $start
             );
-        }
+        };
         return $this;
     }
 
