@@ -22,6 +22,7 @@ class Log extends \Seven\Command {
 
     const PARAMETER_XML = 'xml';
     const PARAMETER_VERBOSE = 'verbose';
+    const PARAMETER_MERGE_HISTORY = 'use-merge-history';
     const PARAMETER_USERNAME = 'username';
     const PARAMETER_PASSWORD = 'password';
     const PARAMETER_REVISION = 'revision';
@@ -32,7 +33,8 @@ class Log extends \Seven\Command {
                 ->setSubCommand(self::COMMAND)
                 ->setOptions(array(
                     self::PARAMETER_XML => true,
-                    self::PARAMETER_VERBOSE => true
+                    self::PARAMETER_VERBOSE => true,
+                    self::PARAMETER_MERGE_HISTORY => true
                 ));
         ;
     }
@@ -72,12 +74,12 @@ class Log extends \Seven\Command {
     }
 
     public function setRevision($start, $end = NULL) {
-        if (\is_numeric($start) && \is_numeric($end)) {
+        if (($start) && ($end)) {
             $this->setOption(
                     self::PARAMETER_REVISION,
                     $start . self::REV_SEPERATOR . $end
             );
-        } elseif (\is_numeric($start)) {
+        } elseif ($start) {
             $this->setOption(
                     self::PARAMETER_REVISION,
                     $start
