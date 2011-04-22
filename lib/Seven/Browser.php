@@ -78,8 +78,8 @@ class Browser {
                             $this->getRepositoryLog(
                                     $this->getPostRequest('repository_id'),
                                     $this->getPostRequest('limit'),
-                                    $this->getPostRequest('revision_start'),
-                                    $this->getPostRequest('revision_end')
+                                    $this->getPostRequest('revision-start'),
+                                    $this->getPostRequest('revision-end')
                     ));
                     break;
 
