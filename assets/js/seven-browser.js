@@ -45,7 +45,7 @@ var Browser = {
     },
 
     getRepositoryLog: function(){
-        if (!this.currentRepository) {
+        if (this.currentRepository === false) {
             return false
         }
         var repository_id = this.currentRepository
