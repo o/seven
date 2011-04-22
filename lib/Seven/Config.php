@@ -19,6 +19,11 @@ class Config {
     const FILENAME = 'config.yml';
     static private $values;
 
+    /**
+     * Sets and returns static config values
+     *
+     * @return array
+     */
     static public function getValues() {
         if (!self::$values) {
             self::$values = self::parse();
@@ -26,6 +31,11 @@ class Config {
         return self::$values;
     }
 
+    /**
+     * Parses config.yml file
+     *
+     * @return bool|array
+     */
     private static function parse() {
         try {
             $yaml = new \sfYamlParser();

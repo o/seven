@@ -39,6 +39,11 @@ class Log extends \Seven\Command {
         ;
     }
 
+    /**
+     *
+     * @param \Seven\Repository $repository
+     * @return Log
+     */
     public function setRepository(\Seven\Repository $repository) {
         if ($repository->getPath()) {
             $repository->setUrl(
@@ -63,6 +68,11 @@ class Log extends \Seven\Command {
         return $this;
     }
 
+    /**
+     *
+     * @param int $limit
+     * @return Log
+     */
     public function setLimit($limit) {
         if (\is_numeric($limit)) {
             $this->setOption(
@@ -73,6 +83,12 @@ class Log extends \Seven\Command {
         return $this;
     }
 
+    /**
+     *
+     * @param string|int $start
+     * @param string|int $end
+     * @return Log
+     */
     public function setRevision($start, $end = NULL) {
         if (($start) && ($end)) {
             $this->setOption(

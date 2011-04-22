@@ -33,15 +33,30 @@ class LogParser {
     private $fileActions = array('A' => 'Added', 'D' => 'Deleted', 'M' => 'Modified', 'C' => 'Conflicted', 'G' => 'Merged', 'R' => 'Replaced');
     private $xml;
 
+    /**
+     *
+     * @param string $xml
+     */
     public function __construct($xml) {
         $this->setXml($xml);
         $this->load();
     }
 
+    /**
+     * Returns explanation of action
+     *
+     * @param string $action
+     * @return string
+     */
     private function getFileAction($action) {
         return $this->fileActions[(string) $action];
     }
 
+    /**
+     * Loads XML as SimpleXMLElement for parsing
+     *
+     * @return LogParser
+     */
     private function load() {
         libxml_use_internal_errors(true);
         $xml = \simplexml_load_string($this->getXml());
@@ -54,6 +69,11 @@ class LogParser {
         return $this;
     }
 
+    /**
+     * Parses XML document for outputting JSON output
+     *
+     * @return array
+     */
     public function parse() {
         if (!$this->getXml()) {
             return false;
@@ -86,7 +106,6 @@ class LogParser {
      *
      * @param string $ts
      * @return string
-     * @author Osman Ungur
      */
     private function time2str($ts) {
         if (!ctype_digit($ts))
@@ -122,10 +141,19 @@ class LogParser {
         return date('F Y', $ts);
     }
 
+    /**
+     *
+     * @return string|SimpleXMLElement
+     */
     private function getXml() {
         return $this->xml;
     }
 
+    /**
+     *
+     * @param string|SimpleXMLElement $xml
+     * @return LogParser 
+     */
     private function setXml($xml) {
         $this->xml = $xml;
         return $this;

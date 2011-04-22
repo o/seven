@@ -17,6 +17,11 @@ namespace Seven;
  */
 class Browser {
 
+    /**
+     * Returns repository name and url's from config
+     *
+     * @return array
+     */
     private function getRepositories() {
         $result = new \ArrayObject();
         $values = \Seven\Config::getValues();
@@ -29,12 +34,28 @@ class Browser {
         return \iterator_to_array($result);
     }
 
+    /**
+     * Returns all information of given repository
+     *
+     * @param int $id
+     * @return Repository
+     */
     private function getRepositoryInfo($id) {
         $values = \Seven\Config::getValues();
         $repository = $values['repositories'][$id];
         return new Repository($repository['name'], $repository['url'], $repository['path'], $repository['username'], $repository['password']);
     }
 
+    /**
+     *
+     * Returns log of repository
+     *
+     * @param int $repository_id
+     * @param int $limit
+     * @param string|int $revision_start
+     * @param string|int $revision_end
+     * @return array
+     */
     private function getRepositoryLog($repository_id, $limit = 10, $revision_start = false, $revision_end = false) {
         $log = new \Seven\Command\Log();
         $result = $log->setRepository($this->getRepositoryInfo($repository_id))
@@ -45,6 +66,12 @@ class Browser {
         return $parser->parse();
     }
 
+    /**
+     * Returns value of given post key
+     *
+     * @param string $key
+     * @return string
+     */
     private function getPostRequest($key) {
         if (\array_key_exists($key, $_POST)) {
             if ($_POST[$key]) {
@@ -54,6 +81,12 @@ class Browser {
         return false;
     }
 
+    /**
+     * Returns host or shorten url of url
+     *
+     * @param string $url
+     * @return string
+     */
     private function getShortUrl($url) {
         $parsed = \parse_url($url);
         if (\array_key_exists('host', $parsed)) {
@@ -66,6 +99,11 @@ class Browser {
         }
     }
 
+    /**
+     * Basic request router
+     *
+     * @return mixed
+     */
     public function dispatch() {
         if ($this->getPostRequest('action')) {
             switch ($this->getPostRequest('action')) {

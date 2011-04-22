@@ -21,6 +21,11 @@ class Autoloader {
 
     const NAMESPACE_SEPERATOR = '\\';
 
+    /**
+     * Registers static autoloader
+     *
+     * @return bool
+     */
     public static function register() {
         if (self::isRegistered()) {
             return false;
@@ -31,10 +36,20 @@ class Autoloader {
         return self::$isRegistered;
     }
 
+    /**
+     * Returns autoloader has registered
+     *
+     * @return bool
+     */
     public static function isRegistered() {
         return self::$isRegistered;
     }
 
+    /**
+     *
+     * @param string $class
+     * @return bool
+     */
     public static function load($class) {
         $file_path = self::getPath() . DIRECTORY_SEPARATOR . str_replace(self::NAMESPACE_SEPERATOR, DIRECTORY_SEPARATOR, $class) . '.php';
 
@@ -45,6 +60,11 @@ class Autoloader {
         require_once $file_path;
     }
 
+    /**
+     * Returns base include path
+     *
+     * @return string
+     */
     public static function getPath() {
         if (!self::$path) {
             self::$path = realpath(dirname(__FILE__));

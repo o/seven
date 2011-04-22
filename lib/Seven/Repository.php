@@ -24,51 +24,101 @@ class Repository {
     private $password;
 
     function __construct($name, $url, $path = NULL, $username = NULL, $password = NULL) {
-        $this->setName($name);
-        $this->setUrl($url);
-        $this->setPath($path);
-        $this->setUsername($username);
-        $this->setPassword($password);
+        $this->setName($name)
+                ->setUrl($url)
+                ->setPath($path)
+                ->setUsername($username)
+                ->setPassword($password);
     }
 
+    /**
+     *
+     * @return string
+     */
     public function getName() {
         return $this->name;
     }
 
+    /**
+     *
+     * @param string $name
+     * @return Repository
+     */
     public function setName($name) {
         $this->name = $name;
+        return $this;
     }
 
+    /**
+     *
+     * @return string
+     */
     public function getUrl() {
         return $this->url;
     }
 
+    /**
+     *
+     * @param string $url
+     * @return Repository
+     */
     public function setUrl($url) {
         $this->url = $url;
+        return $this;
     }
 
+    /**
+     *
+     * @return string
+     */
     public function getPath() {
         return $this->path;
     }
 
+    /**
+     *
+     * @param string $path
+     * @return Repository
+     */
     public function setPath($path) {
         $this->path = $path;
+        return $this;
     }
 
+    /**
+     *
+     * @return string
+     */
     public function getUsername() {
         return $this->username;
     }
 
+    /**
+     *
+     * @param string $username
+     * @return Repository
+     */
     public function setUsername($username) {
         $this->username = $username;
+        return $this;
     }
 
+    /**
+     *
+     * @return string
+     */
     public function getPassword() {
         return $this->password;
     }
 
+    /**
+     *
+     * @param string $password
+     * @return Repository
+     */
     public function setPassword($password) {
         $this->password = $password;
+        return $this;
     }
 
 }

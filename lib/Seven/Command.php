@@ -24,52 +24,104 @@ abstract class Command {
     private $arguments = array();
     private $options = array();
 
+    /**
+     *
+     * @param string $command
+     * @return Command
+     */
     protected function setCommand($command) {
         $this->command = $command;
         return $this;
     }
 
+    /**
+     *
+     * @param string $subCommand
+     * @return Command
+     */
     protected function setSubCommand($subCommand) {
         $this->subCommand = $subCommand;
         return $this;
     }
 
-    protected function setArguments($arguments) {
+    /**
+     *
+     * @param array $arguments
+     * @return Command
+     */
+    protected function setArguments(array $arguments) {
         $this->arguments = $arguments;
         return $this;
     }
 
+    /**
+     *
+     * @param string $value
+     * @return Command
+     */
     protected function addArgument($value) {
         $this->arguments[] = $value;
         return $this;
     }
 
-    protected function setOptions($options) {
+    /**
+     *
+     * @param array $options
+     * @return Command
+     */
+    protected function setOptions(array $options) {
         $this->options = $options;
         return $this;
     }
 
+    /**
+     *
+     * @param string $name
+     * @param string $value
+     * @return Command
+     */
     protected function setOption($name, $value = true) {
         $this->options[$name] = $value;
         return $this;
     }
 
+    /**
+     *
+     * @return string
+     */
     private function getCommand() {
         return $this->command;
     }
 
+    /**
+     *
+     * @return string
+     */
     private function getSubCommand() {
         return $this->subCommand;
     }
 
+    /**
+     *
+     * @return array
+     */
     private function getArguments() {
         return $this->arguments;
     }
 
+    /**
+     *
+     * @return array
+     */
     private function getOptions() {
         return $this->options;
     }
 
+    /**
+     * Prepares command for execution
+     *
+     * @return string
+     */
     public function prepare() {
         $result = new \ArrayObject();
         $result->append($this->getCommand());
