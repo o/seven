@@ -44,17 +44,20 @@ class LogParser {
 
     private function load() {
         libxml_use_internal_errors(true);
-        $xml = new \SimpleXMLElement($this->getXml());
+        $xml = \simplexml_load_string($this->getXml());
         if (!libxml_get_errors()) {
             $this->setXml($xml);
         } else {
             libxml_clear_errors();
-            throw new Exception("Repository log cannot be fetched", 1);
+            $this->setXml(false);
         }
         return $this;
     }
 
     public function parse() {
+        if (!$this->getXml()) {
+            return false;
+        }
         $result = new \ArrayObject();
         foreach ($this->getXml() as $commits) {
             $changedfiles = new \ArrayObject();
@@ -116,9 +119,7 @@ class LogParser {
                 return 'last month';
             return date('F Y', $ts);
         }
-        else {
-            return date('F Y', $ts);
-        }
+        return date('F Y', $ts);
     }
 
     private function getXml() {
