@@ -12,9 +12,9 @@
     </head>
     <body>
         <div class="container">
-            <div class="span-24" id="header"></div>
+            <div class="span-24" id="header"><h1 class="quiet">seven</h1></div>
             <div class="span-18" id="content">
-                <div class="info">To show logs select a repository from list</div>
+                <div class="info">Select a repository from list</div>
             </div>
             <div class="span-6 last" id="sidebar">
                 <h3 class="caps">Repositories</h3>
@@ -24,11 +24,11 @@
                 <h3 class="caps">Log options</h3>
                 <div class="box" id="log-options">
                     <form action="/" method="POST">
-                        <label for="limit">Limit</label>
+                        <label for="limit">Limit :</label>
                         <input type="text" class="text" name="limit" id="limit" value="10" />
-                        <label for="revision-start">Revision start</label>
+                        <label for="revision-start">From :</label>
                         <input type="text" class="text" name="revision-start" id="revision-start" value="" />
-                        <label for="revision-end">Revision end</label>
+                        <label for="revision-end">To :</label>
                         <input type="text" class="text" name="revision-end" id="revision-end" value="" />
                         <a onclick="Browser.getRepositoryLog()" href="javascript:void(0)">Refresh</a>
                     </form>

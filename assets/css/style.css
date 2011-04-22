@@ -17,6 +17,8 @@
 
 #header {
     height: 100px;
+    font-size: 24px;
+    font-family: Georgia, 'Times New Roman', serif;
 }
 
 #log-options input.text, input.title {

@@ -1,6 +1,5 @@
 var Browser = {
     currentRepository : false,
-    currentRevision : false,
     ajaxUrl : 'ajax.php',
 
     getRepositories: function(){
@@ -40,6 +39,8 @@ var Browser = {
 
     switchRepository: function(repository_id) {
         this.currentRepository = repository_id
+        $('#revision-start').val('')
+        $('#revision-end').val('')
         this.getRepositoryLog()
         return true
     },
@@ -67,7 +68,6 @@ var Browser = {
 
                     $(contentDiv).empty()
                     for (var i in data){
-                        this.currentRevision = data[i].revision
                         
                         $(contentDiv).append('<div id="revision-log-' + data[i].revision + '" class="revision-log clearfix"></div>')
 
@@ -84,6 +84,9 @@ var Browser = {
                         }
 
                     }
+                    
+                    $('#revision-start').val(data[i].revision)
+                    $('#revision-end').val(data[i].revision)
                     return true
                 } else {
                     $(contentDiv).html('<div class="notice">No commit log found.</div>')
