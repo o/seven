@@ -90,7 +90,11 @@ abstract class Command {
     }
 
     public function execute() {
-        return \shell_exec($this->prepare());
+        $result = \shell_exec($this->prepare());
+        if ($result) {
+            return $result;
+        }
+        return false;
     }
 
 }
