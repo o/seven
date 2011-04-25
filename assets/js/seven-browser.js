@@ -39,8 +39,7 @@ var Browser = {
 
     switchRepository: function(repository_id) {
         this.currentRepository = repository_id
-        $('#revision-start').val('')
-        $('#revision-end').val('')
+        $('#revision').val('')
         this.getRepositoryLog()
         return true
     },
@@ -60,8 +59,7 @@ var Browser = {
                 'action' : 'log',
                 'repository_id' : repository_id,
                 'limit' : $('#limit').val(),
-                'revision-start' : $('#revision-start').val(),
-                'revision-end' : $('#revision-end').val()
+                'revision' : $('#revision').val()
             },
             success: function(data) {
                 if (data.length > 0) {
@@ -85,8 +83,7 @@ var Browser = {
 
                     }
                     
-                    $('#revision-start').val(data[i].revision)
-                    $('#revision-end').val(data[i].revision)
+                    $('#revision').val(data[i].revision)
                     return true
                 } else {
                     $(contentDiv).html('<div class="notice">No commit log found.</div>')

@@ -56,11 +56,11 @@ class Browser {
      * @param string|int $revision_end
      * @return array
      */
-    private function getRepositoryLog($repository_id, $limit = 10, $revision_start = false, $revision_end = false) {
+    private function getRepositoryLog($repository_id, $limit = 10, $revision = false) {
         $log = new \Seven\Command\Log();
         $result = $log->setRepository($this->getRepositoryInfo($repository_id))
                         ->setLimit($limit)
-                        ->setRevision($revision_start, $revision_end)
+                        ->setRevision($revision)
                         ->execute();
         $parser = new LogParser($result);
         return $parser->parse();
@@ -118,8 +118,7 @@ class Browser {
                             $this->getRepositoryLog(
                                     $this->getPostRequest('repository_id'),
                                     $this->getPostRequest('limit'),
-                                    $this->getPostRequest('revision-start'),
-                                    $this->getPostRequest('revision-end')
+                                    $this->getPostRequest('revision')
                     ));
                     break;
 

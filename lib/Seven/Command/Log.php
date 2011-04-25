@@ -85,22 +85,14 @@ class Log extends \Seven\Command {
 
     /**
      *
-     * @param string|int $start
-     * @param string|int $end
+     * @param string|int $revision
      * @return Log
      */
-    public function setRevision($start, $end = NULL) {
-        if (($start) && ($end)) {
-            $this->setOption(
-                    self::PARAMETER_REVISION,
-                    $start . self::REV_SEPERATOR . $end
-            );
-        } elseif ($start) {
-            $this->setOption(
-                    self::PARAMETER_REVISION,
-                    $start
-            );
-        };
+    public function setRevision($revision) {
+        $this->setOption(
+                self::PARAMETER_REVISION,
+                $revision
+        );
         return $this;
     }
 
