@@ -17,7 +17,7 @@ var Seven = {
                 if (data.length > 0) {
                     for (var i in data){
                         repositoryListInner.append('<li>\n\
-                                                <a href="javascript:void(0)" onclick="Timeline.getRepositoryLog('+ i +')">' + data[i].name + '</a>\n\
+                                                <a href="javascript:void(0)" repository_id="'+ i +'">' + data[i].name + '</a>\n\
                                                 <br>\n\
                                                 <span class="quiet">' + data[i].url + '</span>\n\
                                                 </li>');
@@ -56,7 +56,7 @@ var Timeline = {
         var contentDiv = $('#content');
         contentDiv.html('<div class="success">Fetching logs..</div>');
         $.ajax({
-            url: Browser.ajaxUrl,
+            url: Seven.ajaxUrl,
             type: 'POST',
             dataType: 'json',
             data: {
@@ -101,13 +101,14 @@ var Timeline = {
 
 $(document).ready(function() {
     Seven.getRepositoryList();
-    $('#refresh').click(
-        function () {
-            Timeline.getRepositoryLog(Seven.getRepositoryId());
-        }
-        )
+    $('#refresh').click(function () {
+        Timeline.getRepositoryLog(Seven.getRepositoryId());
+    })
     $('#revision').focus(function() {
         $('#revision-notice').fadeIn(1000)
-    });            
+    });
+    $('ul#repository-list-inner > li a').live('click', function(){
+        Timeline.getRepositoryLog($(this).attr('repository_id'));
+    });
 });
 
