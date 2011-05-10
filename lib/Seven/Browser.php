@@ -62,8 +62,17 @@ class Browser {
                         ->setLimit($limit)
                         ->setRevision($revision)
                         ->execute();
-        $parser = new LogParser($result);
+        $parser = new \Seven\Parser\Log($result);
         return $parser->parse();
+    }
+    
+    public function getRepositoryFiles($repository_id, $revision = false) {
+        $list = new \Seven\Command\Ls();
+        $result = $list->setRepository($this->getRepositoryInfo($repository_id))
+                ->setRevision($revision)
+                ->execute();
+        $parser = new \Seven\Parser\Ls();
+        
     }
 
     /**
@@ -122,6 +131,13 @@ class Browser {
                     ));
                     break;
 
+                case 'ls':
+                    return \json_encode(
+                            $this->getRepositoryFiles(
+                                    $this->getPostRequest('repository_id'),
+                                    $this->getPostRequest('revision')
+                    ));
+                    break;                
 
                 default:
                     return \json_encode(array('message' => 'Wrong action given'));
