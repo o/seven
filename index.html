@@ -3,9 +3,9 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <title>Seven</title>
-		<link rel="stylesheet" href="assets/css/screen.css" type="text/css" media="screen, projection" />
-		<link rel="stylesheet" href="assets/css/print.css" type="text/css" media="print" />
-		<link rel="stylesheet" href="assets/css/style.css" type="text/css" media="screen, projection" />
+        <link rel="stylesheet" href="assets/css/screen.css" type="text/css" media="screen, projection" />
+        <link rel="stylesheet" href="assets/css/print.css" type="text/css" media="print" />
+        <link rel="stylesheet" href="assets/css/style.css" type="text/css" media="screen, projection" />
         <!--[if lt IE 8]><link rel="stylesheet" href="assets/css/ie.css" type="text/css" media="screen, projection"><![endif]-->
         <script type="text/javascript" src="assets/js/jquery.min.js"></script>
         <script type="text/javascript" src="assets/js/seven-browser.js"></script>
@@ -17,18 +17,29 @@
                 <div class="info">Select a repository from list</div>
             </div>
             <div class="span-6 last" id="sidebar">
-                <h3 class="caps">Repositories</h3>
                 <div class="box" id="repository-list">
-                    Loading...
+                    <h3 class="caps">Repositories</h3>
+                    <ul id="repository-list-inner">
+
+                    </ul>
                 </div>
-                <h3 class="caps">Log options</h3>
                 <div class="box" id="log-options">
-                    <form action="/" method="POST">
+                    <h3 class="caps">Log options</h3>
+                    <form action="/" method="post">
                         <label for="limit">Limit :</label>
                         <input type="text" class="text" name="limit" id="limit" value="10" />
                         <label for="revision">Revision :</label>
                         <input type="text" class="text" name="revision" id="revision" value="" />
-                        <a onclick="Browser.getRepositoryLog()" href="javascript:void(0)">Refresh</a>
+                        <div id="revision-notice" class="info">
+                            <ul>
+                                <li>A revision argument can be one of:</li>
+                                <li>NUMBER       revision number</li>
+                                <li>'{' DATE '}' revision at start of the date</li>
+                                <li>'HEAD'       latest in repository</li>
+                                <li>(commands also take ARG1:ARG2 range)</li>
+                            </ul>
+                        </div>
+                        <a id="refresh" href="javascript:void(0)">Refresh</a>
                     </form>
                 </div>
             </div>

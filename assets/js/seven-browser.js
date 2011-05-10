@@ -2,8 +2,10 @@ var Browser = {
     currentRepository : false,
     ajaxUrl : 'ajax.php',
 
-    getRepositories: function(){
-        var repositoryListDiv = '#repository-list';
+    getRepositoryList: function(){
+        var repositoryListDiv = $('#repository-list');
+        var repositoryListInner = $('#repository-list-inner');
+        
         $.ajax({
             url: this.ajaxUrl,
             type: 'POST',
@@ -13,46 +15,48 @@ var Browser = {
             },
             success: function(data) {
                 if (data.length > 0) {
-
-                    $(repositoryListDiv).html('<ul></ul>')
-                    var repositoryListUl = $(repositoryListDiv +' ul');
-
                     for (var i in data){
-                        repositoryListUl.append('<li>\n\
-                                                <a href="javascript:void(0)" onclick="Browser.switchRepository('+ i +')">' + data[i].name + '</a>\n\
+                        repositoryListInner.append('<li>\n\
+                                                <a href="javascript:void(0)" onclick="Timeline.getRepositoryLog('+ i +')">' + data[i].name + '</a>\n\
                                                 <br>\n\
                                                 <span class="quiet">' + data[i].url + '</span>\n\
-                                                </li>')
+                                                </li>');
                     }
-                    return true
+                    return true;
                 } else {
-                    $(repositoryListDiv).html('No repositories found.')
-                    return false
+                    repositoryListDiv.html('No repositories found.');
+                    return false;
                 }
             },
             error: function() {
-                $(repositoryListDiv).html('An error occured when fetching repository list.')
-                return false
+                repositoryListDiv.html('An error occured when fetching repository list.');
+                return false;
             }
         })
     },
 
-    switchRepository: function(repository_id) {
-        this.currentRepository = repository_id
-        $('#revision').val('')
-        this.getRepositoryLog()
-        return true
+    setRepositoryId: function(repository_id) {
+        this.currentRepository = repository_id;
+        return true;
     },
 
-    getRepositoryLog: function(){
-        if (this.currentRepository === false) {
-            return false
+    getRepositoryId: function() {
+        return this.currentRepository;
+    }
+    
+}
+
+var Timeline = {
+    
+    getRepositoryLog: function(repository_id){
+        if (Browser.getRepositoryId() != repository_id) {
+            $('#revision').val('');
         }
-        var repository_id = this.currentRepository
-        var contentDiv = '#content';
-        $(contentDiv).html('<div class="success">Fetching logs..</div>')
+        Browser.setRepositoryId(repository_id);
+        var contentDiv = $('#content');
+        contentDiv.html('<div class="success">Fetching logs..</div>');
         $.ajax({
-            url: this.ajaxUrl,
+            url: Browser.ajaxUrl,
             type: 'POST',
             dataType: 'json',
             data: {
@@ -63,43 +67,47 @@ var Browser = {
             },
             success: function(data) {
                 if (data.length > 0) {
-
-                    $(contentDiv).empty()
+                    contentDiv.empty();
                     for (var i in data){
-                        
-                        $(contentDiv).append('<div id="revision-log-' + data[i].revision + '" class="revision-log clearfix"></div>')
-
-                        $('#revision-log-' + data[i].revision).append('<div class="revision-number span-2 colborder">' + data[i].revision + '</div>')
-                        $('#revision-log-' + data[i].revision).append('<div class="revision-author-date span-5 quiet">' + data[i].author + ', ' + data[i].date + '</div>')
-                        $('#revision-log-' + data[i].revision).append('<div class="revision-message span-10 last">' + data[i].message + '</div>')
-
+                        contentDiv.append('<div id="revision-log-' + data[i].revision + '" class="revision-log clearfix"></div>');
+                        $('#revision-log-' + data[i].revision).append('<div class="revision-number span-2 colborder">' + data[i].revision + '</div>');
+                        $('#revision-log-' + data[i].revision).append('<div class="revision-author span-5 quiet">' + data[i].author + ', ' + data[i].date + '</div>');
+                        $('#revision-log-' + data[i].revision).append('<div class="revision-message span-10 last">' + data[i].message + '</div>');
                         if (data[i].files.length > 0) {
-                            var files = data[i].files
-                            $(contentDiv).append('<ul id="revision-log-' + data[i].revision + '-files" class="revision-files clearfix"></div>')
+                            var files = data[i].files;
+                            contentDiv.append('<ul id="revision-log-' + data[i].revision + '-files" class="revision-files clearfix"></div>');
                             for (var j in files) {
-                                $('#revision-log-' + data[i].revision + '-files').append('<li>' + files[j].filename + ', ' + files[j].action + '</li>')
+                                $('#revision-log-' + data[i].revision + '-files').append('<li>' + files[j].filename + ', ' + files[j].action + '</li>');
                             }
                         }
-
                     }
-                    
-                    $('#revision').val(data[i].revision)
-                    return true
+                    return true;
                 } else {
-                    $(contentDiv).html('<div class="notice">No commit log found.</div>')
-                    return false
+                    contentDiv.html('<div class="notice">No commit log found.</div>');
+                    return false;
                 }
             },
             error: function() {
-                $(contentDiv).html('<div class="error">An error occured when fetching commit logs.</div>')
-                return false
+                $(contentDiv).html('<div class="error">An error occured when fetching commit logs.</div>');
+                return false;
             }
-        })
-    }
+        });
+    }    
+    
 }
+
 
 // Stuff to do as soon as the DOM is ready;
 
 $(document).ready(function() {
-    Browser.getRepositories()
+    Browser.getRepositoryList();
+    $('#refresh').click(
+        function () {
+            Timeline.getRepositoryLog(Browser.getRepositoryId());
+        }
+        )
+    $('#revision').focus(function() {
+        $('#revision-notice').fadeIn(1000)
+    });            
 });
+

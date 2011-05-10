@@ -39,7 +39,7 @@
     margin-bottom: 20px;
 }
 
-.revision-number, .revision-message, revision-author-date {
+.revision-number, .revision-message, revision-author {
     height:40px;
     overflow: hidden;
 }
@@ -56,4 +56,10 @@
     padding:0.8em;
     margin-bottom:1em;
     border:2px solid #ddd;
+}
+
+#revision-notice {
+    font-family: Monaco,"Courier New","DejaVu Sans Mono","Bitstream Vera Sans Mono",monospace;
+    font-size: 9px;
+    display: none;
 }
