@@ -66,13 +66,13 @@ class Browser {
         return $parser->parse();
     }
     
-    public function getRepositoryFiles($repository_id, $revision = false) {
+    private function getRepositoryFiles($repository_id, $revision = false) {
         $list = new \Seven\Command\Ls();
         $result = $list->setRepository($this->getRepositoryInfo($repository_id))
                 ->setRevision($revision)
                 ->execute();
-        $parser = new \Seven\Parser\Ls();
-        
+        $parser = new \Seven\Parser\Ls($result);
+        return $parser->parse();
     }
 
     /**
