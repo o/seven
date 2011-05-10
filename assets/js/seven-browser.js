@@ -1,4 +1,4 @@
-var Browser = {
+var Seven = {
     currentRepository : false,
     ajaxUrl : 'ajax.php',
 
@@ -49,10 +49,10 @@ var Browser = {
 var Timeline = {
     
     getRepositoryLog: function(repository_id){
-        if (Browser.getRepositoryId() != repository_id) {
+        if (Seven.getRepositoryId() != repository_id) {
             $('#revision').val('');
         }
-        Browser.setRepositoryId(repository_id);
+        Seven.setRepositoryId(repository_id);
         var contentDiv = $('#content');
         contentDiv.html('<div class="success">Fetching logs..</div>');
         $.ajax({
@@ -100,10 +100,10 @@ var Timeline = {
 // Stuff to do as soon as the DOM is ready;
 
 $(document).ready(function() {
-    Browser.getRepositoryList();
+    Seven.getRepositoryList();
     $('#refresh').click(
         function () {
-            Timeline.getRepositoryLog(Browser.getRepositoryId());
+            Timeline.getRepositoryLog(Seven.getRepositoryId());
         }
         )
     $('#revision').focus(function() {
