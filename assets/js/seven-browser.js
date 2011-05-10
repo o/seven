@@ -1,5 +1,6 @@
 var Seven = {
-    currentRepository : false,
+    currentMode : 'timeline',
+    currentRepositoryId : false,
     ajaxUrl : 'ajax.php',
 
     getRepositoryList: function(){
@@ -36,12 +37,25 @@ var Seven = {
     },
 
     setRepositoryId: function(repository_id) {
-        this.currentRepository = repository_id;
+        this.currentRepositoryId = repository_id;
         return true;
     },
 
     getRepositoryId: function() {
-        return this.currentRepository;
+        return this.currentRepositoryId;
+    },
+    
+    setMode: function(mode) {
+        this.currentMode = mode;
+        $('#modes a').each(function() {
+            $(this).removeClass('selected');
+        });
+        $('#' + mode).addClass('selected');
+        return true
+    },
+    
+    getMode: function() {
+        return this.currentMode;
     }
     
 }
@@ -96,10 +110,46 @@ var Timeline = {
     
 }
 
+var Browse = {
+    
+    getFileList: function(repository_id){
+        Seven.setRepositoryId(repository_id);
+        var contentDiv = $('#content');
+        contentDiv.html('<div class="success">Fetching files..</div>');
+        $.ajax({
+            url: Seven.ajaxUrl,
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                'action' : 'ls',
+                'repository_id' : repository_id,
+                'revision' : $('#revision').val()
+            },
+            success: function(data) {
+                if (data.length > 0) {
+                    contentDiv.empty();
+                    for (var i in data){
+                        contentDiv.append('<div id="repository-file-' + i + '" class="repository-file clearfix"></div>');
+                        $('#repository-file-' + i).append('<div class="filename span-4">' + data[i].name + '</div>');                        
+                    }
+                    return true;
+                } else {
+                    return false;
+                }
+            },
+            error: function() {
+                return false;
+            }
+        });        
+    }
+    
+}
+
 
 // Stuff to do as soon as the DOM is ready;
 
 $(document).ready(function() {
+    Seven.setMode('timeline');
     Seven.getRepositoryList();
     $('#refresh').click(function () {
         Timeline.getRepositoryLog(Seven.getRepositoryId());
@@ -108,7 +158,24 @@ $(document).ready(function() {
         $('#revision-notice').fadeIn(1000)
     });
     $('ul#repository-list-inner > li a').live('click', function(){
-        Timeline.getRepositoryLog($(this).attr('repository_id'));
+        switch (Seven.getMode()) {
+            case 'timeline':
+                return Timeline.getRepositoryLog($(this).attr('repository_id'));
+                break;
+                
+            case 'browse':
+                return Browse.getFileList($(this).attr('repository_id'));
+                break;
+            
+            default:
+                break;
+        }
+
     });
+    $('#modes a').live('click', function(){
+        Seven.setMode($(this).attr('mode'));
+    });
+
+
 });
 
