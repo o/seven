@@ -5,6 +5,10 @@
         Main layout stylesheet.
 */
 
+a:active, .selected {
+    color:#666;
+}
+
 .caps {
     font-variant: small-caps;
     letter-spacing: 1px;
@@ -15,10 +19,14 @@
     padding:0 2px;
 }
 
-#header {
-    height: 100px;
+#header, #modes {
     font-size: 24px;
     font-family: Georgia, 'Times New Roman', serif;
+}
+
+#modes {
+    margin-top: 10px;
+    text-align: right;
 }
 
 #options input.text, input.title {
