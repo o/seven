@@ -23,7 +23,7 @@ abstract class Parser {
      *
      * @return string|SimpleXMLElement
      */
-    private function getXml() {
+    protected function getXml() {
         return $this->xml;
     }
 
@@ -32,7 +32,7 @@ abstract class Parser {
      * @param string|SimpleXMLElement $xml
      * @return Parser
      */
-    private function setXml($xml) {
+    protected function setXml($xml) {
         $this->xml = $xml;
         return $this;
     }
@@ -42,7 +42,7 @@ abstract class Parser {
      *
      * @return Parser
      */
-    private function load() {
+    protected function load() {
         libxml_use_internal_errors(true);
         $xml = \simplexml_load_string($this->getXml());
         if (!libxml_get_errors()) {
@@ -54,7 +54,7 @@ abstract class Parser {
         return $this;
     }
 
-    abstract function parse();
+    abstract public function parse();
 }
 
 ?>
