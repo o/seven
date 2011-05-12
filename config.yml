@@ -1,10 +1,10 @@
 repositories:
     - name :        Test Repository 1
-      url :         http://macfuse.googlecode.com/svn/trunk
+      url :         http://macfuse.googlecode.com/svn/trunk/
       username :    guest
       password :    guest 
 
     - name :        Test Repository 2
-      url :         http://recaptcha.googlecode.com/svn/trunk/recaptcha-plugins
+      url :         http://recaptcha.googlecode.com/svn/trunk/recaptcha-plugins/
       username :    guest
       password :    guest 
