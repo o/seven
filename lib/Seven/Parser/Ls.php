@@ -57,7 +57,7 @@ class Ls extends \Seven\Parser {
                         )));
             }
         }
-        return \iterator_to_array($result);
+        return array('files' => \iterator_to_array($result), 'path' => $this->getXml()->{self::XML_ROOT_TAG}[self::XML_PATH_ATTRIBUTE]);
     }
 
     private function formatBytes($bytes, $precision = 2) {
