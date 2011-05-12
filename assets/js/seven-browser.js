@@ -56,6 +56,21 @@ var Seven = {
     
     getMode: function() {
         return this.currentMode;
+    },
+    
+    action : function() {
+        switch (Seven.getMode()) {
+            case 'timeline':
+                Timeline.getRepositoryLog($(this).attr('rel'));
+                break;
+                
+            case 'browse':
+                Browse.getFileList($(this).attr('rel'));
+                break;
+            
+            default:
+                break;
+        }
     }
     
 }
@@ -113,6 +128,9 @@ var Timeline = {
 var Browse = {
     
     getFileList: function(repository_id){
+        if (Seven.getRepositoryId() != repository_id) {
+            $('#revision').val('');
+        }        
         Seven.setRepositoryId(repository_id);
         var contentDiv = $('#content');
         contentDiv.html('<div class="success">Fetching files..</div>');
@@ -130,7 +148,11 @@ var Browse = {
                     contentDiv.empty();
                     for (var i in data){
                         contentDiv.append('<div id="repository-file-' + i + '" class="repository-file clearfix"></div>');
-                        $('#repository-file-' + i).append('<div class="filename span-4">' + data[i].name + '</div>');                        
+                        $('#repository-file-' + i).append('<div class="file-kind span-1"><img src="assets/img/' + data[i].kind + '.png"</div>');                        
+                        $('#repository-file-' + i).append('<div class="file-name span-8">' + data[i].name + '</div>');                        
+                        $('#repository-file-' + i).append('<div class="file-size span-2">' + data[i].size + '</div>');                        
+                        $('#repository-file-' + i).append('<div class="file-revision span-2">r' + data[i].revision + '</div>');                        
+                        $('#repository-file-' + i).append('<div class="file-author span-5 quite last">' + data[i].author + ', ' + data[i].date + '</div>');                        
                     }
                     return true;
                 } else {
@@ -152,25 +174,13 @@ $(document).ready(function() {
     Seven.setMode('timeline');
     Seven.getRepositoryList();
     $('#refresh').click(function () {
-        Timeline.getRepositoryLog(Seven.getRepositoryId());
-    })
+        Seven.action();
+        })
     $('#revision').focus(function() {
         $('#revision-notice').fadeIn(1000)
     });
     $('ul#repository-list-inner > li a').live('click', function(){
-        switch (Seven.getMode()) {
-            case 'timeline':
-                return Timeline.getRepositoryLog($(this).attr('rel'));
-                break;
-                
-            case 'browse':
-                return Browse.getFileList($(this).attr('rel'));
-                break;
-            
-            default:
-                break;
-        }
-
+        Seven.action();
     });
     $('#modes a').live('click', function(){
         Seven.setMode($(this).attr('rel'));
