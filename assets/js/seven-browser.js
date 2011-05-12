@@ -58,14 +58,14 @@ var Seven = {
         return this.currentMode;
     },
     
-    action : function() {
+    action : function(repository_id) {
         switch (Seven.getMode()) {
             case 'timeline':
-                Timeline.getRepositoryLog($(this).attr('rel'));
+                Timeline.getRepositoryLog(repository_id);
                 break;
                 
             case 'browse':
-                Browse.getFileList($(this).attr('rel'));
+                Browse.getFileList(repository_id);
                 break;
             
             default:
@@ -180,7 +180,7 @@ $(document).ready(function() {
         $('#revision-notice').fadeIn(1000)
     });
     $('ul#repository-list-inner > li a').live('click', function(){
-        Seven.action();
+        Seven.action($(this).attr('rel'));
     });
     $('#modes a').live('click', function(){
         Seven.setMode($(this).attr('rel'));
