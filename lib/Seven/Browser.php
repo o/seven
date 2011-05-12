@@ -43,7 +43,7 @@ class Browser {
     private function getRepositoryInfo($id) {
         $values = \Seven\Config::getValues();
         $repository = $values['repositories'][$id];
-        return new Repository($repository['name'], $repository['url'], $repository['path'], $repository['username'], $repository['password']);
+        return new Repository($repository['name'], $repository['url'], $repository['username'], $repository['password']);
     }
 
     /**
