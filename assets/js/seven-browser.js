@@ -145,16 +145,48 @@ var Browse = {
                 'revision' : $('#revision').val()
             },
             success: function(data) {
-                if (data.length > 0) {
+                var files = data.files;
+                if (files && files.length > 0) {
                     contentDiv.empty();
-                    for (var i in data){
+                    for (var i in files){
                         contentDiv.append('<div id="repository-file-' + i + '" class="repository-file clearfix"></div>');
-                        $('#repository-file-' + i).append('<div class="file-kind span-1"><img src="assets/img/' + data[i].kind + '.png"</div>');                        
-                        $('#repository-file-' + i).append('<div class="file-name span-8">' + data[i].name + '</div>');                        
-                        $('#repository-file-' + i).append('<div class="file-size span-2">' + data[i].size + '</div>');                        
-                        $('#repository-file-' + i).append('<div class="file-revision span-2">r' + data[i].revision + '</div>');                        
-                        $('#repository-file-' + i).append('<div class="file-author span-5 quite last">' + data[i].author + ', ' + data[i].date + '</div>');                        
+                        $('#repository-file-' + i).append('<div class="file-kind span-1"><img src="assets/img/' + files[i].kind + '.png" /></div>');                        
+                        $('#repository-file-' + i).append('<div class="file-name span-8"><a href="javascript:void(0)" kind="' + files[i].kind + '" rel="'+ data.path[0] + '/' + files[i].name +'" >' + files[i].name + '</a></div>');                        
+                        $('#repository-file-' + i).append('<div class="file-size span-2">' + files[i].size + '</div>');                        
+                        $('#repository-file-' + i).append('<div class="file-revision span-2">r' + files[i].revision + '</div>');                        
+                        $('#repository-file-' + i).append('<div class="file-author span-5 quite last">' + files[i].author + ', ' + files[i].date + '</div>');                        
                     }
+                    return true;
+                } else {
+                    contentDiv.html('<div class="notice">No file found.</div>');                    
+                    return false;
+                }
+            },
+            error: function() {
+                $(contentDiv).html('<div class="error">An error occured when fetching file list.</div>');                
+                return false;
+            }
+        });        
+    },
+    
+    getFile: function(repository_id, path, kind){   
+        Seven.setRepositoryId(repository_id);
+        var contentDiv = $('#content');
+        contentDiv.html('<div class="success">Fetching files..</div>');
+        $.ajax({
+            url: Seven.ajaxUrl,
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                'action' : 'file',
+                'repository_id' : repository_id,
+                'revision' : $('#revision').val(),
+                'path': path,
+                'kind': kind
+            },
+            success: function(data) {
+                var files = data.files;
+                if (files && files.length > 0) {
                     return true;
                 } else {
                     return false;
@@ -164,7 +196,7 @@ var Browse = {
                 return false;
             }
         });        
-    }
+    }    
     
 }
 
@@ -186,7 +218,9 @@ $(document).ready(function() {
     $('#modes a').live('click', function(){
         Seven.setMode($(this).attr('rel'));
     });
-
+    $('.file-name a').live('click', function(){
+        Browse.getFile(Seven.getRepositoryId(), $(this).attr('rel'), $(this).attr('kind'));
+    });
 
 });
 
