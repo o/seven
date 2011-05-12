@@ -51,6 +51,10 @@ var Seven = {
             $(this).removeClass('selected');
         });
         $('#' + mode).addClass('selected');
+        if (this.getRepositoryId() === false) {
+            return false;
+        }
+        this.action(this.getRepositoryId());
         return true
     },
     
@@ -59,6 +63,9 @@ var Seven = {
     },
     
     action : function(repository_id) {
+        if (this.getRepositoryId() != repository_id) {
+            $('#revision').val('');
+        }        
         switch (Seven.getMode()) {
             case 'timeline':
                 Timeline.getRepositoryLog(repository_id);
@@ -78,9 +85,6 @@ var Seven = {
 var Timeline = {
     
     getRepositoryLog: function(repository_id){
-        if (Seven.getRepositoryId() != repository_id) {
-            $('#revision').val('');
-        }
         Seven.setRepositoryId(repository_id);
         var contentDiv = $('#content');
         contentDiv.html('<div class="success">Fetching logs..</div>');
@@ -127,10 +131,7 @@ var Timeline = {
 
 var Browse = {
     
-    getFileList: function(repository_id){
-        if (Seven.getRepositoryId() != repository_id) {
-            $('#revision').val('');
-        }        
+    getFileList: function(repository_id){   
         Seven.setRepositoryId(repository_id);
         var contentDiv = $('#content');
         contentDiv.html('<div class="success">Fetching files..</div>');
@@ -175,7 +176,7 @@ $(document).ready(function() {
     Seven.getRepositoryList();
     $('#refresh').click(function () {
         Seven.action();
-        })
+    })
     $('#revision').focus(function() {
         $('#revision-notice').fadeIn(1000)
     });
