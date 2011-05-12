@@ -27,7 +27,10 @@ abstract class Shared extends \Seven\Command {
      * @param \Seven\Repository $repository
      * @return Shared
      */
-    public function setRepository(\Seven\Repository $repository) {
+    public function setRepository(\Seven\Repository $repository, $path = false) {
+        if ($path) {
+            $repository->setUrl($path);
+        }
         $this->addArgument($repository->getUrl());
         if ($repository->getUsername()) {
             $this->setOption(

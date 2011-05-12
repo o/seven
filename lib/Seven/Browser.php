@@ -59,20 +59,28 @@ class Browser {
     private function getRepositoryLog($repository_id, $limit = 10, $revision = false) {
         $log = new \Seven\Command\Log();
         $result = $log->setRepository($this->getRepositoryInfo($repository_id))
-                        ->setLimit($limit)
-                        ->setRevision($revision)
-                        ->execute();
+                ->setLimit($limit)
+                ->setRevision($revision)
+                ->execute();
         $parser = new \Seven\Parser\Log($result);
         return $parser->parse();
     }
-    
-    private function getRepositoryFiles($repository_id, $revision = false) {
+
+    private function getRepositoryFolder($repository_id, $revision = false, $path = false) {
         $list = new \Seven\Command\Ls();
-        $result = $list->setRepository($this->getRepositoryInfo($repository_id))
+        $result = $list->setRepository($this->getRepositoryInfo($repository_id), $path)
                 ->setRevision($revision)
                 ->execute();
         $parser = new \Seven\Parser\Ls($result);
         return $parser->parse();
+    }
+
+    private function getRepositoryFile($repository_id, $revision = false, $path = false) {
+        $file = new \Seven\Command\Cat();
+        $result = $file->setRepository($this->getRepositoryInfo($repository_id), $path)
+                ->setRevision($revision)
+                ->execute();
+        return $result;
     }
 
     /**
@@ -125,19 +133,31 @@ class Browser {
                 case 'log':
                     return \json_encode(
                             $this->getRepositoryLog(
-                                    $this->getPostRequest('repository_id'),
-                                    $this->getPostRequest('limit'),
-                                    $this->getPostRequest('revision')
-                    ));
+                                    $this->getPostRequest('repository_id'), $this->getPostRequest('limit'), $this->getPostRequest('revision')
+                            ));
                     break;
 
                 case 'ls':
-                    return \json_encode(
-                            $this->getRepositoryFiles(
-                                    $this->getPostRequest('repository_id'),
-                                    $this->getPostRequest('revision')
-                    ));
-                    break;                
+                    switch ($this->getPostRequest('kind')) {
+                        case 'file':
+                            return \json_encode(
+                                    $this->getRepositoryFile(
+                                            $this->getPostRequest('repository_id'), $this->getPostRequest('revision'), $this->getPostRequest('path')
+                                    ));
+                            break;
+
+                        case 'folder':
+                            return \json_encode(
+                                    $this->getRepositoryFolder(
+                                            $this->getPostRequest('repository_id'), $this->getPostRequest('revision'), $this->getPostRequest('path')
+                                    ));
+                            break;
+
+
+                        default:
+                            break;
+                    }
+                    break;
 
                 default:
                     return \json_encode(array('message' => 'Wrong action given'));

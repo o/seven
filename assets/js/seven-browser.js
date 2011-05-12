@@ -72,7 +72,7 @@ var Seven = {
                 break;
                 
             case 'browse':
-                Browse.getFileList(repository_id);
+                Browse.getFolder(repository_id);
                 break;
             
             default:
@@ -131,7 +131,7 @@ var Timeline = {
 
 var Browse = {
     
-    getFileList: function(repository_id){   
+    getFolder: function(repository_id, path){   
         Seven.setRepositoryId(repository_id);
         var contentDiv = $('#content');
         contentDiv.html('<div class="success">Fetching files..</div>');
@@ -142,7 +142,9 @@ var Browse = {
             data: {
                 'action' : 'ls',
                 'repository_id' : repository_id,
-                'revision' : $('#revision').val()
+                'revision' : $('#revision').val(),
+                'path': path,
+                'kind': 'folder'
             },
             success: function(data) {
                 var files = data.files;
@@ -169,7 +171,7 @@ var Browse = {
         });        
     },
     
-    getFile: function(repository_id, path, kind){   
+    getFile: function(repository_id, path){   
         Seven.setRepositoryId(repository_id);
         var contentDiv = $('#content');
         contentDiv.html('<div class="success">Fetching files..</div>');
@@ -178,21 +180,23 @@ var Browse = {
             type: 'POST',
             dataType: 'json',
             data: {
-                'action' : 'file',
+                'action' : 'ls',
                 'repository_id' : repository_id,
                 'revision' : $('#revision').val(),
                 'path': path,
-                'kind': kind
+                'kind': 'file'
             },
             success: function(data) {
-                var files = data.files;
-                if (files && files.length > 0) {
-                    return true;
+                if (data) {
+                    // Needs improvements
+                    contentDiv.text(data);
                 } else {
+                    contentDiv.html('<div class="notice">File cannot be fetched.</div>');                    
                     return false;
                 }
             },
             error: function() {
+                $(contentDiv).html('<div class="error">An error occured when fetching file.</div>');                                
                 return false;
             }
         });        
@@ -219,7 +223,19 @@ $(document).ready(function() {
         Seven.setMode($(this).attr('rel'));
     });
     $('.file-name a').live('click', function(){
-        Browse.getFile(Seven.getRepositoryId(), $(this).attr('rel'), $(this).attr('kind'));
+        switch ($(this).attr('kind')) {
+            case 'file':
+                Browse.getFile(Seven.getRepositoryId(), $(this).attr('rel'));
+                break;
+            case 'dir':
+                Browse.getFolder(Seven.getRepositoryId(), $(this).attr('rel'))
+                break;
+
+
+            default:
+                break;
+        }
+
     });
 
 });
