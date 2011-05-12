@@ -50,14 +50,23 @@ class Ls extends \Seven\Parser {
                 $result->append(new \ArrayObject(array(
                             'kind' => (string) $file[self::XML_KIND_ATTRIBUTE],
                             'name' => (string) $file->{self::XML_NAME_TAG},
-                            'size' => (int) $file->{self::XML_SIZE_TAG},
+                            'size' => $this->formatBytes((int) $file->{self::XML_SIZE_TAG}),
                             'revision' => (int) $file->{self::XML_COMMIT_TAG}[self::XML_REVISION_ATTRIBUTE],
                             'author' => (string) $file->{self::XML_COMMIT_TAG}->{self::XML_AUTHOR_TAG},
-                            'date' => (string) $file->{self::XML_COMMIT_TAG}->{self::XML_DATE_TAG}
+                            'date' => $this->time2str($file->{self::XML_COMMIT_TAG}->{self::XML_DATE_TAG})
                         )));
             }
         }
         return \iterator_to_array($result);
+    }
+
+    private function formatBytes($bytes, $precision = 2) {
+        $units = array('B', 'KB', 'MB', 'GB', 'TB');
+        $bytes = max($bytes, 0);
+        $pow = floor(($bytes ? log($bytes) : 0) / log(1024));
+        $pow = min($pow, count($units) - 1);
+        $bytes /= pow(1024, $pow);
+        return round($bytes, $precision) . ' ' . $units[$pow];
     }
 
 }
