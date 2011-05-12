@@ -18,7 +18,7 @@ var Seven = {
                 if (data.length > 0) {
                     for (var i in data){
                         repositoryListInner.append('<li>\n\
-                                                <a href="javascript:void(0)" repository_id="'+ i +'">' + data[i].name + '</a>\n\
+                                                <a href="javascript:void(0)" rel="'+ i +'">' + data[i].name + '</a>\n\
                                                 <br>\n\
                                                 <span class="quiet">' + data[i].url + '</span>\n\
                                                 </li>');
@@ -160,11 +160,11 @@ $(document).ready(function() {
     $('ul#repository-list-inner > li a').live('click', function(){
         switch (Seven.getMode()) {
             case 'timeline':
-                return Timeline.getRepositoryLog($(this).attr('repository_id'));
+                return Timeline.getRepositoryLog($(this).attr('rel'));
                 break;
                 
             case 'browse':
-                return Browse.getFileList($(this).attr('repository_id'));
+                return Browse.getFileList($(this).attr('rel'));
                 break;
             
             default:
@@ -173,7 +173,7 @@ $(document).ready(function() {
 
     });
     $('#modes a').live('click', function(){
-        Seven.setMode($(this).attr('mode'));
+        Seven.setMode($(this).attr('rel'));
     });
 
 
