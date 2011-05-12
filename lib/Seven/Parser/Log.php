@@ -74,7 +74,7 @@ class Log extends \Seven\Parser {
                         'revision' => (int) $commits[self::XML_REVISION_ATTRIBUTE],
                         'author' => (string) $commits->{self::XML_AUTHOR_TAG},
                         'message' => (string) trim($commits->{self::XML_MESSAGE_TAG}),
-                        'date' => (string) $this->time2str($commits->{self::XML_DATE_TAG}),
+                        'date' => $this->time2str($commits->{self::XML_DATE_TAG}),
                         'files' => \iterator_to_array($changedfiles)
                     )));
         };
