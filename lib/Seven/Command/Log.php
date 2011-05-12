@@ -3,7 +3,7 @@
 namespace Seven\Command;
 
 /**
- * Seven\Log
+ * Seven\Command\Log
  *
  * Implementation of log command
  *
@@ -14,18 +14,14 @@ namespace Seven\Command;
  * @license    http://www.opensource.org/licenses/bsd-license.php BSD License
  * @version    Version @package_version@
  * @since      Class available since Release 1.0.0
- * @link       http://github.com/osmanungur/seven
+ * @link       http://github.com/import/seven
  */
-class Log extends \Seven\Command {
+class Log extends \Seven\Command\Shared {
     const COMMAND = 'log';
     const REV_SEPERATOR = ':';
 
-    const PARAMETER_XML = 'xml';
     const PARAMETER_VERBOSE = 'verbose';
     const PARAMETER_MERGE_HISTORY = 'use-merge-history';
-    const PARAMETER_USERNAME = 'username';
-    const PARAMETER_PASSWORD = 'password';
-    const PARAMETER_REVISION = 'revision';
     const PARAMETER_LIMIT = 'limit';
 
     public function __construct() {
@@ -41,35 +37,6 @@ class Log extends \Seven\Command {
 
     /**
      *
-     * @param \Seven\Repository $repository
-     * @return Log
-     */
-    public function setRepository(\Seven\Repository $repository) {
-        if ($repository->getPath()) {
-            $repository->setUrl(
-                    $repository->getUrl() .
-                    $repository->getPath()
-            );
-        }
-        $this->addArgument($repository->getUrl());
-        if ($repository->getUsername()) {
-            $this->setOption(
-                    self::PARAMETER_USERNAME,
-                    $repository->getUsername()
-            );
-        }
-        if ($repository->getPassword()) {
-            $this->setOption(
-                    self::PARAMETER_PASSWORD,
-                    $repository->getPassword()
-            );
-        }
-
-        return $this;
-    }
-
-    /**
-     *
      * @param int $limit
      * @return Log
      */
@@ -80,19 +47,6 @@ class Log extends \Seven\Command {
                     $limit
             );
         }
-        return $this;
-    }
-
-    /**
-     *
-     * @param string|int $revision
-     * @return Log
-     */
-    public function setRevision($revision) {
-        $this->setOption(
-                self::PARAMETER_REVISION,
-                $revision
-        );
         return $this;
     }
 
