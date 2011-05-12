@@ -43,7 +43,7 @@ a:active, .selected {
     padding-bottom: 10px;
 }
 
-.revision-log {
+.revision-log, .repository-file {
     margin-bottom: 20px;
 }
 
@@ -70,4 +70,10 @@ a:active, .selected {
     font-family: Monaco,"Courier New","DejaVu Sans Mono","Bitstream Vera Sans Mono",monospace;
     font-size: 9px;
     display: none;
+}
+
+.repository-file {
+    font-family: Monaco,"Courier New","DejaVu Sans Mono","Bitstream Vera Sans Mono",monospace;
+    border-bottom:2px solid #ddd;
+    padding-bottom: 5px;
 }
