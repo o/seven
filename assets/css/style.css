@@ -5,8 +5,8 @@
         Main layout stylesheet.
 */
 
-a:active, .selected {
-    color: #09F;
+a:active, .selected, a:focus {
+    color: #111111;
 }
 
 .caps {
@@ -56,8 +56,11 @@ a:active, .selected {
     font-size: 200%;
 }
 
+.revision-files, #revision-notice, .repository-file, pre, code, tt {
+    font-family: Monaco,"Courier New","DejaVu Sans Mono","Bitstream Vera Sans Mono",monospace;    
+}
+
 .revision-files {
-    font-family: Monaco,"Courier New","DejaVu Sans Mono","Bitstream Vera Sans Mono",monospace;
     list-style-type: none;
     background-color: #EEEEEE;
     color: #444444;
@@ -67,13 +70,15 @@ a:active, .selected {
 }
 
 #revision-notice {
-    font-family: Monaco,"Courier New","DejaVu Sans Mono","Bitstream Vera Sans Mono",monospace;
     font-size: 9px;
     display: none;
 }
 
 .repository-file {
-    font-family: Monaco,"Courier New","DejaVu Sans Mono","Bitstream Vera Sans Mono",monospace;
     border-bottom:2px solid #ddd;
     padding-bottom: 5px;
+}
+
+#rawcode {
+    overflow: auto;
 }

@@ -189,7 +189,9 @@ var Browse = {
             success: function(data) {
                 if (data) {
                     // Needs improvements
-                    contentDiv.text(data);
+                    contentDiv.html('<pre id="rawcode" class="prettyprint"></pre>');
+                    $('#rawcode').text(data);
+                    prettyPrint();
                 } else {
                     contentDiv.html('<div class="notice">File cannot be fetched.</div>');                    
                     return false;
@@ -237,6 +239,5 @@ $(document).ready(function() {
         }
 
     });
-
 });
 
