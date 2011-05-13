@@ -56,9 +56,9 @@ class Browser {
      * @param string|int $revision_end
      * @return array
      */
-    private function getRepositoryLog($repository_id, $limit = 10, $revision = false) {
+    private function getRepositoryLog($repository_id, $limit = 10, $revision = false, $path = false) {
         $log = new \Seven\Command\Log();
-        $result = $log->setRepository($this->getRepositoryInfo($repository_id))
+        $result = $log->setRepository($this->getRepositoryInfo($repository_id), $path)
                 ->setLimit($limit)
                 ->setRevision($revision)
                 ->execute();
@@ -153,11 +153,11 @@ class Browser {
 
 
                 default:
-                    return \json_encode(array('message' => 'Wrong action given'));
+                    return false;
                     break;
             }
         } else {
-            return \json_encode(array('message' => 'No action given'));
+            return false;
         }
     }
 

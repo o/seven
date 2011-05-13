@@ -69,6 +69,29 @@ class Ls extends \Seven\Parser {
         return round($bytes, $precision) . ' ' . $units[$pow];
     }
 
+    private function breadcrumb($url, $path) {
+        $parsed = parse_url($url);
+        $fragments = explode("/", $parsed['path']);
+        $current_path = $parsed['scheme'] . "://" . $parsed['host'];
+        $result = array();
+        array_push($result, array(
+            'url' => $path,
+            'name' => '/'
+        ));
+        foreach ($fragments as $value) {
+            if ($value) {
+                $current_path = $current_path . '/' . $value;
+                if (strlen($current_path) > strlen($path)) {
+                    array_push($result, array(
+                        'url' => $current_path,
+                        'name' => $value
+                    ));
+                }
+            }
+        }
+        return $result;
+    }
+
 }
 
 ?>
