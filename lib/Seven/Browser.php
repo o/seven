@@ -138,26 +138,19 @@ class Browser {
                     break;
 
                 case 'ls':
-                    switch ($this->getPostRequest('kind')) {
-                        case 'file':
-                            return \json_encode(
-                                    $this->getRepositoryFile(
-                                            $this->getPostRequest('repository_id'), $this->getPostRequest('revision'), $this->getPostRequest('path')
-                                    ));
-                            break;
-
-                        case 'folder':
-                            return \json_encode(
-                                    $this->getRepositoryFolder(
-                                            $this->getPostRequest('repository_id'), $this->getPostRequest('revision'), $this->getPostRequest('path')
-                                    ));
-                            break;
-
-
-                        default:
-                            break;
-                    }
+                    return \json_encode(
+                            $this->getRepositoryFolder(
+                                    $this->getPostRequest('repository_id'), $this->getPostRequest('revision'), $this->getPostRequest('path')
+                            ));
                     break;
+
+                case 'cat':
+                    return \json_encode(
+                            $this->getRepositoryFile(
+                                    $this->getPostRequest('repository_id'), $this->getPostRequest('revision'), $this->getPostRequest('path')
+                            ));
+                    break;
+
 
                 default:
                     return \json_encode(array('message' => 'Wrong action given'));

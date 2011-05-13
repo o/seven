@@ -65,7 +65,7 @@ var Seven = {
     action : function(repository_id) {
         if (this.getRepositoryId() != repository_id) {
             $('#revision').val('');
-        }        
+        }
         switch (Seven.getMode()) {
             case 'timeline':
                 Timeline.getRepositoryLog(repository_id);
@@ -84,7 +84,7 @@ var Seven = {
 
 var Timeline = {
     
-    getRepositoryLog: function(repository_id){
+    getRepositoryLog: function(repository_id, path){
         Seven.setRepositoryId(repository_id);
         var contentDiv = $('#content');
         contentDiv.html('<div class="success">Fetching logs..</div>');
@@ -96,7 +96,8 @@ var Timeline = {
                 'action' : 'log',
                 'repository_id' : repository_id,
                 'limit' : $('#limit').val(),
-                'revision' : $('#revision').val()
+                'revision' : $('#revision').val(),
+                'path': path
             },
             success: function(data) {
                 if (data.length > 0) {
@@ -143,8 +144,7 @@ var Browse = {
                 'action' : 'ls',
                 'repository_id' : repository_id,
                 'revision' : $('#revision').val(),
-                'path': path,
-                'kind': 'folder'
+                'path': path
             },
             success: function(data) {
                 var files = data.files;
@@ -180,11 +180,10 @@ var Browse = {
             type: 'POST',
             dataType: 'json',
             data: {
-                'action' : 'ls',
+                'action' : 'cat',
                 'repository_id' : repository_id,
                 'revision' : $('#revision').val(),
-                'path': path,
-                'kind': 'file'
+                'path': path
             },
             success: function(data) {
                 if (data) {
@@ -213,7 +212,7 @@ $(document).ready(function() {
     Seven.setMode('timeline');
     Seven.getRepositoryList();
     $('#refresh').click(function () {
-        Seven.action();
+        Seven.action($(this).attr('rel'));
     })
     $('#revision').focus(function() {
         $('#revision-notice').fadeIn(1000)
