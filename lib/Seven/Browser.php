@@ -72,7 +72,7 @@ class Browser {
                 ->setRevision($revision)
                 ->execute();
         $parser = new \Seven\Parser\Ls($result);
-        return $parser->parse();
+        return $parser->parse($this->getRepositoryInfo($repository_id)->getUrl());
     }
 
     private function getRepositoryFile($repository_id, $revision = false, $path = false) {

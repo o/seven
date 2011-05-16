@@ -40,7 +40,7 @@ class Ls extends \Seven\Parser {
         $this->load();
     }
 
-    public function parse() {
+    public function parse($mainpath) {
         if (!$this->getXml()) {
             return false;
         }
@@ -57,7 +57,11 @@ class Ls extends \Seven\Parser {
                         )));
             }
         }
-        return array('files' => \iterator_to_array($result), 'path' => $this->getXml()->{self::XML_ROOT_TAG}[self::XML_PATH_ATTRIBUTE]);
+        return array(
+            'files' => \iterator_to_array($result),
+            'path' => $this->getXml()->{self::XML_ROOT_TAG}[self::XML_PATH_ATTRIBUTE],
+            'breadcrumb' => $this->breadcrumb($this->getXml()->{self::XML_ROOT_TAG}[self::XML_PATH_ATTRIBUTE], $mainpath)
+        );
     }
 
     private function formatBytes($bytes, $precision = 2) {
@@ -69,19 +73,19 @@ class Ls extends \Seven\Parser {
         return round($bytes, $precision) . ' ' . $units[$pow];
     }
 
-    private function breadcrumb($url, $path) {
+    private function breadcrumb($url, $mainpath) {
         $parsed = parse_url($url);
         $fragments = explode("/", $parsed['path']);
         $current_path = $parsed['scheme'] . "://" . $parsed['host'];
         $result = array();
         array_push($result, array(
-            'url' => $path,
-            'name' => '/'
+            'url' => $mainpath,
+            'name' => '..'
         ));
         foreach ($fragments as $value) {
             if ($value) {
                 $current_path = $current_path . '/' . $value;
-                if (strlen($current_path) > strlen($path)) {
+                if (strlen($current_path) > strlen($mainpath)) {
                     array_push($result, array(
                         'url' => $current_path,
                         'name' => $value

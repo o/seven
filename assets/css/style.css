@@ -82,3 +82,8 @@ a:active, .selected, a:focus {
 #rawcode {
     overflow: auto;
 }
+
+#breadcrumb {
+    font-size: 16px;
+    padding-bottom: 20px;
+}

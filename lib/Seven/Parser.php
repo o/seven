@@ -54,8 +54,6 @@ abstract class Parser {
         return $this;
     }
 
-    abstract public function parse();
-
     /**
      * Returns an English representation of a past date within the last month, stolen from http://ejohn.org/files/pretty.js
      *
@@ -94,8 +92,8 @@ abstract class Parser {
             return date('F Y', $ts);
         }
         return date('F Y', $ts);
-    }    
-    
+    }
+
 }
 
 ?>

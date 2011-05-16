@@ -16,6 +16,9 @@
             <div class="span-6 last" id="modes">
                 <a id="timeline" rel="timeline" href="javascript:void(0)">timeline</a> | <a id="browse" rel="browse" href="javascript:void(0)">browse</a>
             </div>
+            <div class="span-18" id="breadcrumb">
+
+            </div>
             <div class="span-18" id="content">
                 <div class="info">Select a repository from list</div>
             </div>
@@ -29,8 +32,6 @@
                 <div class="box" id="options">
                     <h3 class="caps">Options</h3>
                     <form action="/" method="post">
-                        <label for="limit">Limit :</label>
-                        <input type="text" class="text" name="limit" id="limit" value="10" />
                         <label for="revision">Revision :</label>
                         <input type="text" class="text" name="revision" id="revision" value="" />
                         <div id="revision-notice" class="info">
@@ -42,6 +43,8 @@
                                 <li>(commands also take ARG1:ARG2 range)</li>
                             </ul>
                         </div>
+                        <label for="limit">Limit :</label>
+                        <input type="text" class="text" name="limit" id="limit" value="10" />
                         <a id="refresh" href="javascript:void(0)">Refresh</a>
                     </form>
                 </div>

@@ -66,6 +66,8 @@ var Seven = {
         if (this.getRepositoryId() != repository_id) {
             $('#revision').val('');
         }
+        var breadcrumbDiv = $('#breadcrumb');
+        breadcrumbDiv.empty();        
         switch (Seven.getMode()) {
             case 'timeline':
                 Timeline.getRepositoryLog(repository_id);
@@ -78,6 +80,17 @@ var Seven = {
             default:
                 break;
         }
+    },
+    
+    createBreadcrumb: function(data) {
+        var breadcrumbDiv = $('#breadcrumb');
+        if (data.length > 0) {
+            for (var i in data) {
+                breadcrumbDiv.append('<a href="javascript:void(0)" rel="' + data[i].url + '">' + data[i].name + '</a> / ');
+            }
+            return true;
+        }
+        return false;
     }
     
 }
@@ -149,6 +162,7 @@ var Browse = {
             success: function(data) {
                 var files = data.files;
                 if (files && files.length > 0) {
+                    Seven.createBreadcrumb(data.breadcrumb);
                     contentDiv.empty();
                     for (var i in files){
                         contentDiv.append('<div id="repository-file-' + i + '" class="repository-file clearfix"></div>');
@@ -236,7 +250,11 @@ $(document).ready(function() {
             default:
                 break;
         }
-
     });
+    $('#breadcrumb a').live('click', function(){
+        Browse.getFolder(Seven.getRepositoryId(), $(this).attr('rel'))
+    });
+
+
 });
 
