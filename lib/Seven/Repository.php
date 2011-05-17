@@ -23,10 +23,9 @@ class Repository {
     private $username;
     private $password;
 
-    function __construct($name, $url, $path = NULL, $username = NULL, $password = NULL) {
+    function __construct($name, $url, $username = NULL, $password = NULL) {
         $this->setName($name)
                 ->setUrl($url)
-                ->setPath($path)
                 ->setUsername($username)
                 ->setPassword($password);
     }
@@ -64,24 +63,6 @@ class Repository {
      */
     public function setUrl($url) {
         $this->url = $url;
-        return $this;
-    }
-
-    /**
-     *
-     * @return string
-     */
-    public function getPath() {
-        return $this->path;
-    }
-
-    /**
-     *
-     * @param string $path
-     * @return Repository
-     */
-    public function setPath($path) {
-        $this->path = $path;
         return $this;
     }
 
