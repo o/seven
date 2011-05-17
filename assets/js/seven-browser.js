@@ -66,10 +66,11 @@ var Seven = {
         if (this.getRepositoryId() != repository_id) {
             $('#revision').val('');
         }
-        var breadcrumbDiv = $('#breadcrumb');
-        breadcrumbDiv.empty();        
+       
         switch (Seven.getMode()) {
             case 'timeline':
+                breadcrumbDiv.empty(); 
+                var breadcrumbDiv = $('#breadcrumb');
                 Timeline.getRepositoryLog(repository_id);
                 break;
                 
@@ -84,6 +85,7 @@ var Seven = {
     
     createBreadcrumb: function(data) {
         var breadcrumbDiv = $('#breadcrumb');
+        breadcrumbDiv.empty(); 
         if (data.length > 0) {
             for (var i in data) {
                 breadcrumbDiv.append('<a href="javascript:void(0)" rel="' + data[i].url + '">' + data[i].name + '</a> / ');
