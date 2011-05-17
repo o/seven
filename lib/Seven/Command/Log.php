@@ -21,7 +21,6 @@ class Log extends \Seven\Command\Shared {
     const REV_SEPERATOR = ':';
 
     const PARAMETER_VERBOSE = 'verbose';
-    const PARAMETER_MERGE_HISTORY = 'use-merge-history';
     const PARAMETER_LIMIT = 'limit';
 
     public function __construct() {
@@ -29,8 +28,7 @@ class Log extends \Seven\Command\Shared {
                 ->setSubCommand(self::COMMAND)
                 ->setOptions(array(
                     self::PARAMETER_XML => true,
-                    self::PARAMETER_VERBOSE => true,
-                    self::PARAMETER_MERGE_HISTORY => true
+                    self::PARAMETER_VERBOSE => true
                 ));
         ;
     }
