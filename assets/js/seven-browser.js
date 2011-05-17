@@ -69,8 +69,8 @@ var Seven = {
        
         switch (Seven.getMode()) {
             case 'timeline':
-                breadcrumbDiv.empty(); 
                 var breadcrumbDiv = $('#breadcrumb');
+                breadcrumbDiv.empty(); 
                 Timeline.getRepositoryLog(repository_id);
                 break;
                 
