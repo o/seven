@@ -21,6 +21,7 @@ abstract class Shared extends \Seven\Command {
     const PARAMETER_USERNAME = 'username';
     const PARAMETER_PASSWORD = 'password';
     const PARAMETER_REVISION = 'revision';
+    const PARAMETER_NON_INTERACTIVE = 'non-interactive'; 
 
     /**
      *

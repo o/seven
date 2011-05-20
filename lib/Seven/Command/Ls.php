@@ -23,7 +23,8 @@ class Ls extends \Seven\Command\Shared{
         $this->setCommand(\Seven\Command::SVN)
                 ->setSubCommand(self::COMMAND)
                 ->setOptions(array(
-                    self::PARAMETER_XML => true
+                    self::PARAMETER_XML => true,
+                    self::PARAMETER_NON_INTERACTIVE => true
                 ));
         ;
     }   

@@ -28,7 +28,8 @@ class Log extends \Seven\Command\Shared {
                 ->setSubCommand(self::COMMAND)
                 ->setOptions(array(
                     self::PARAMETER_XML => true,
-                    self::PARAMETER_VERBOSE => true
+                    self::PARAMETER_VERBOSE => true,
+                    self::PARAMETER_NON_INTERACTIVE => true
                 ));
         ;
     }
